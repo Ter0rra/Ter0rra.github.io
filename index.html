@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Albert Romano · Data Scientist · MLOps Engineer</title>
+  <meta name="description" content="Portfolio interactif d'Albert Romano — Data Scientist & MLOps Engineer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-left">
+      <span class="header-badge">AR</span>
+      <span class="header-name">albert_romano.nn</span>
+    </div>
+    <div class="header-center">
+      <span class="nn-status">
+        <span class="status-dot"></span>
+        NEURAL NETWORK · INTERACTIF · CLIQUEZ UN NŒUD
+      </span>
+    </div>
+    <div class="header-right">
+      <a href="https://linkedin.com/in/albert-romano-ter0rra" target="_blank" class="header-link">LinkedIn</a>
+      <a href="https://github.com/Ter0rra" target="_blank" class="header-link">GitHub</a>
+      <a href="mailto:albert.romano.data@gmail.com" class="header-cta">Contact →</a>
+    </div>
+  </header>
+
+  <div class="layer-labels" id="layerLabels"></div>
+
+  <div class="canvas-wrapper" id="canvasWrapper">
+    <svg class="svg-connections" id="svgConnections" aria-hidden="true"></svg>
+    <div class="nn-canvas" id="nnCanvas"></div>
+  </div>
+
+  <div class="detail-panel" id="detailPanel">
+    <div class="panel-inner">
+      <button class="panel-close" id="panelClose">ESC · FERMER</button>
+      <div class="panel-body" id="panelBody"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

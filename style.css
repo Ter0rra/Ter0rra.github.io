@@ -1,0 +1,391 @@
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root {
+  --bg:       #050810;
+  --surface:  #0D1320;
+  --border:   #162030;
+  --text:     #F1F5F9;
+  --muted:    #4A5568;
+  --muted2:   #718096;
+
+  --c-sources: #4ECDC4;
+  --c-skills:  #00D4FF;
+  --c-projets: #A855F7;
+  --c-outputs: #10B981;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --header-h:  48px;
+  --labels-h:  34px;
+  --panel-h:   230px;
+  --node-size: 54px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  height: 100dvh;
+  overflow: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+/* Grille de fond subtile */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: rgba(5, 8, 16, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  z-index: 200;
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+
+.header-badge {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-skills), var(--c-projets));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  color: var(--bg); flex-shrink: 0;
+}
+
+.header-name {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.06em; color: var(--muted2);
+}
+
+.nn-status {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.12em; color: var(--muted);
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--c-outputs);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.header-right { display: flex; align-items: center; gap: 16px; }
+
+.header-link {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--muted2); transition: color 0.2s;
+}
+.header-link:hover { color: var(--text); }
+
+.header-cta {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  background: var(--c-skills); color: var(--bg);
+  padding: 6px 14px; border-radius: 4px;
+  transition: opacity 0.2s;
+}
+.header-cta:hover { opacity: 0.85; }
+
+/* ============================================================
+   LAYER LABELS
+   ============================================================ */
+.layer-labels {
+  position: fixed;
+  top: var(--header-h); left: 0; right: 0;
+  height: var(--labels-h);
+  background: rgba(5, 8, 16, 0.8);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.layer-label {
+  position: absolute;
+  top: 50%; transform: translate(-50%, -50%);
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+
+/* ============================================================
+   CANVAS
+   ============================================================ */
+.canvas-wrapper {
+  position: fixed;
+  top: calc(var(--header-h) + var(--labels-h));
+  bottom: 0; left: 0; right: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.svg-connections {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; overflow: visible;
+}
+
+.nn-canvas {
+  position: relative; width: 100%; height: 100%;
+}
+
+/* ============================================================
+   NŒUDS
+   ============================================================ */
+.nn-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 5px;
+  cursor: pointer; z-index: 10;
+  transition: opacity 0.35s ease;
+  /* Entry animation */
+  animation: node-in 0.5s ease both;
+}
+
+.node-ring {
+  width: var(--node-size); height: var(--node-size);
+  border-radius: 50%;
+  border: 1.5px solid var(--nc, #333);
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+}
+
+/* Anneau externe sur active */
+.node-ring::after {
+  content: '';
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 1px solid var(--nc, #333);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.nn-node:hover .node-ring {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px var(--nc-20, rgba(0,0,0,0));
+}
+
+.nn-node.active .node-ring {
+  transform: scale(1.15);
+  border-color: var(--nc, #333);
+  box-shadow: 0 0 36px var(--nc-50, rgba(0,0,0,0)),
+              0 0 10px var(--nc-80, rgba(0,0,0,0));
+}
+.nn-node.active .node-ring::after { opacity: 0.5; }
+
+.nn-node.highlighted .node-ring {
+  border-color: var(--nc, #333);
+  box-shadow: 0 0 14px var(--nc-30, rgba(0,0,0,0));
+}
+
+.nn-node.dimmed { opacity: 0.1; }
+
+.node-abbr {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--nc, #888); letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.node-label {
+  font-family: var(--font-display); font-size: 10px; font-weight: 600;
+  color: var(--text); text-align: center;
+  white-space: nowrap; max-width: 90px;
+  overflow: hidden; text-overflow: ellipsis;
+}
+
+.node-sublabel {
+  font-family: var(--font-mono); font-size: 8px;
+  letter-spacing: 0.05em; color: var(--muted2); text-align: center;
+  margin-top: -3px;
+}
+
+.nn-node.node-live .node-sublabel {
+  color: var(--c-outputs);
+  animation: pulse-dot 2.5s ease-in-out infinite;
+}
+
+/* ============================================================
+   CONNEXIONS SVG
+   ============================================================ */
+.conn-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.035);
+  stroke-width: 1;
+  transition: stroke 0.3s, stroke-width 0.3s, opacity 0.35s;
+}
+
+.conn-path.conn-active {
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+.conn-path.conn-dimmed {
+  stroke: rgba(255, 255, 255, 0.01);
+}
+
+/* ============================================================
+   PANNEAU DE DÉTAIL
+   ============================================================ */
+.detail-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 0;
+  background: rgba(10, 16, 28, 0.97);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  z-index: 300;
+  overflow: hidden;
+  transition: height 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.detail-panel.open { height: var(--panel-h); }
+
+.panel-inner {
+  position: relative; height: 100%;
+  padding: 22px 32px 44px;
+}
+
+.panel-close {
+  position: absolute; bottom: 14px; left: 32px;
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.12em; color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  text-transform: uppercase; padding: 0;
+  transition: color 0.2s;
+}
+.panel-close:hover { color: var(--text); }
+
+.panel-body {
+  display: flex; gap: 40px; align-items: flex-start;
+  height: 100%; overflow: hidden;
+}
+
+.panel-main { flex: 1; min-width: 0; }
+.panel-side  { flex-shrink: 0; width: 200px; }
+
+/* Panel content */
+.panel-badge {
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 3px; border: 1px solid;
+  display: inline-block; margin-bottom: 8px;
+}
+
+.panel-title {
+  font-family: var(--font-display); font-size: 21px; font-weight: 700;
+  color: var(--text); margin-bottom: 6px; line-height: 1.2;
+}
+
+.panel-desc {
+  font-size: 13px; color: var(--muted2); line-height: 1.65;
+  max-width: 540px;
+}
+
+.panel-result {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--c-outputs); margin-top: 8px; line-height: 1.5;
+}
+
+.panel-tags {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;
+}
+
+.p-tag {
+  font-family: var(--font-mono); font-size: 9px;
+  padding: 2px 8px; border-radius: 3px; border: 1px solid;
+  letter-spacing: 0.04em;
+}
+
+.panel-level {
+  display: flex; align-items: center; gap: 5px; margin-top: 10px;
+}
+
+.lvl-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--border); transition: background 0.2s;
+}
+
+.panel-actions {
+  display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+}
+
+.btn-p {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  letter-spacing: 0.08em; padding: 7px 16px; border-radius: 4px;
+  border: none; cursor: pointer; transition: opacity 0.2s;
+  text-transform: uppercase; display: inline-block;
+}
+.btn-p:hover { opacity: 0.82; }
+
+.btn-s {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.08em; padding: 7px 16px; border-radius: 4px;
+  background: transparent; color: var(--muted2);
+  border: 1px solid var(--border); cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  text-transform: uppercase; display: inline-block;
+}
+.btn-s:hover { border-color: var(--muted2); color: var(--text); }
+
+/* Connexions liste */
+.conn-title {
+  font-family: var(--font-mono); font-size: 9px;
+  letter-spacing: 0.12em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 9px;
+}
+
+.conn-list { display: flex; flex-direction: column; gap: 5px; }
+
+.conn-item {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted2);
+}
+
+.conn-dot {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.72); }
+}
+
+@keyframes node-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ============================================================
+   RESPONSIVE MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  :root { --node-size: 40px; --panel-h: 300px; }
+  .header-center { display: none; }
+  .header-link   { display: none; }
+  .panel-side    { display: none; }
+  body::before   { display: none; }
+}
