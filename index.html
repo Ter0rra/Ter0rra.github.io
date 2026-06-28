@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Albert Romano · Data Scientist · MLOps Engineer</title>
-  <meta name="description" content="Portfolio interactif — réseau de neurones navigable." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Portfolio interactif — réseau de neurones navigable."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="site-header">
     <div class="header-left">
       <span class="header-badge">AR</span>
@@ -26,32 +25,32 @@
     </div>
     <div class="header-right">
       <a href="https://linkedin.com/in/albert-romano-ter0rra" target="_blank" class="header-link">LinkedIn</a>
-      <a href="https://github.com/Ter0rra" target="_blank" class="header-link">GitHub</a>
+      <a href="https://github.com/Ter0rra"     target="_blank" class="header-link">GitHub</a>
       <a href="mailto:albert.romano.data@gmail.com" class="header-cta">Contact →</a>
     </div>
   </header>
 
-  <!-- LAYER LABELS -->
+  <!-- Labels couches -->
   <div class="layer-labels" id="layerLabels"></div>
 
-  <!-- CANVAS PRINCIPAL -->
+  <!-- Canvas principal -->
   <div class="canvas-wrapper" id="canvasWrapper">
     <div class="zoom-container" id="zoomContainer">
-      <svg class="svg-layer" id="svgLayer" aria-hidden="true"></svg>
+      <!-- SVG connexions + particules (dimensions fixées par JS) -->
+      <svg id="svgLayer" aria-hidden="true"></svg>
+      <!-- Nœuds HTML -->
       <div class="nn-canvas" id="nnCanvas"></div>
     </div>
   </div>
 
-  <!-- PANNEAU DROITE -->
-  <aside class="info-panel" id="infoPanel" aria-label="Détail du nœud">
-    <button class="panel-close" id="panelClose" aria-label="Fermer">✕</button>
-    <div class="panel-scroll" id="panelScroll"></div>
-  </aside>
-
-  <!-- HINT ZOOM -->
-  <div class="zoom-hint" id="zoomHint">
-    SCROLL · ZOOM &nbsp;·&nbsp; DRAG · PAN &nbsp;·&nbsp; CLIC · SÉLECTION
+  <!-- Panneau info bas -->
+  <div class="info-panel" id="infoPanel">
+    <button class="panel-close" id="panelClose">ESC · FERMER</button>
+    <div class="panel-body" id="panelBody"></div>
   </div>
+
+  <!-- Hint bas -->
+  <div class="canvas-hint">SCROLL · ZOOM &nbsp;|&nbsp; DRAG · PAN &nbsp;|&nbsp; DBL-CLIC · RESET &nbsp;|&nbsp; CLIC NŒUD · EXPLORER</div>
 
   <script src="script.js"></script>
 </body>

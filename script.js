@@ -1,45 +1,43 @@
 'use strict';
 
 /* ============================================================
-   DONNÉES
+   DONNÉES — 5 couches
    ============================================================ */
 const LAYERS = [
   { id:'sources', label:'SOURCES', color:'#4ECDC4' },
   { id:'skills',  label:'SKILLS',  color:'#00D4FF' },
   { id:'projets', label:'PROJETS', color:'#A855F7' },
-  { id:'outputs', label:'OUTPUTS', color:'#10B981' },
+  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' },  // ← nouvelle couche
+  { id:'ship',    label:'SHIP',    color:'#10B981' },
 ];
 
 const NODES = [
-  // ── SOURCES ──────────────────────────────────────────────
-  { id:'ratp',     layer:0, abbr:'RT', label:'RATP',     sublabel:'Manager · 5 ans',
-    type:'source',
-    description:"Management opérationnel Ligne 11. Équipe de 20+ agents, 3×8. Construction autodidacte d'un pipeline d'analyse de régularité à la seconde.",
-    result:"Pipeline Python remplaçant l'approche par échantillonnage. Deux livrables pour deux décideurs distincts.",
+  /* ── SOURCES (3) ─────────────────────────────── */
+  { id:'ratp',    layer:0, abbr:'RT', label:'RATP',     sublabel:'Manager · 5 ans',    type:'source',
+    description:"Management opérationnel Ligne 11, équipe de 20+ agents, 3×8. Pipeline Python d'analyse de régularité construit en autodidacte.",
+    result:"Deux livrables pour deux décideurs distincts. Précision à la seconde. Remplacement de l'approche par échantillonnage.",
     tags:['Management','Terrain','Python','Pandas','IDFM'] },
-  { id:'jedha',    layer:0, abbr:'JE', label:'Jedha',    sublabel:'Bac+5 IA · RNCP 7',
-    type:'source',
-    description:"Architecte en Intelligence Artificielle — RNCP niveau 7. Formation intensive couvrant le cycle complet ML/MLOps.",
-    result:"Maîtrise du cycle complet : données → modèle → déploiement → monitoring.",
+  { id:'jedha',   layer:0, abbr:'JE', label:'Jedha',    sublabel:'Bac+5 IA · RNCP 7', type:'source',
+    description:"Architecte en Intelligence Artificielle — RNCP niveau 7. Formation intensive : ML, deep learning, MLOps, de la donnée au monitoring.",
+    result:"Cycle complet maîtrisé : données → modèle → API → déploiement → monitoring.",
     tags:['RNCP 7','Deep Learning','MLOps','Data Engineering'] },
-  { id:'databird', layer:0, abbr:'DB', label:'DataBird', sublabel:'Cert. Data Analyst',
-    type:'source',
-    description:"Certification Data Analyst. Fondamentaux SQL, Python analytique, visualisation de données.",
-    result:"Bases analytiques solides. Transition structurée vers le ML.",
+  { id:'databird',layer:0, abbr:'DB', label:'DataBird', sublabel:'Cert. Data Analyst', type:'source',
+    description:"Certification Data Analyst. SQL, Python analytique, visualisation de données. Socle structuré avant la montée en compétence ML.",
+    result:"Bases analytiques solides. Transition vers ML.",
     tags:['SQL','Python','Visualisation','Analyse'] },
 
-  // ── SKILLS ───────────────────────────────────────────────
+  /* ── SKILLS (10) ─────────────────────────────── */
   { id:'python',      layer:1, abbr:'PY', label:'Python',       sublabel:'Expert',        type:'skill', level:5,
-    description:"Langage principal. Utilisé dans l'intégralité des projets, de l'exploration à la production.",
+    description:"Langage principal. Intégralité des projets, de l'exploration à la production.",
     subskills:['Pandas','NumPy','Plotly','Boto3','SpaCy'], tags:['Expert'] },
   { id:'pytorch',     layer:1, abbr:'PT', label:'PyTorch',      sublabel:'Avancé',        type:'skill', level:4,
-    description:"Deep learning. CNN EfficientNet B4 pour Wakee, boucle d'entraînement custom, transfer learning.",
+    description:"Deep learning. CNN EfficientNet B4 (Wakee), transfer learning, boucle d'entraînement custom.",
     subskills:['EfficientNet B4','Transfer Learning','CNN','DataLoader'], tags:['Avancé'] },
   { id:'spark',       layer:1, abbr:'SP', label:'SQL · PySpark', sublabel:'Avancé',       type:'skill', level:4,
-    description:"SQL pour l'analyse, PySpark/Databricks pour le traitement distribué (Steam Marketplace, pipeline RATP).",
+    description:"SQL pour l'analyse, PySpark/Databricks pour le traitement distribué.",
     subskills:['PySpark','Databricks','SQL','Delta Lake'], tags:['Avancé'] },
   { id:'mlflow',      layer:1, abbr:'MF', label:'MLflow',       sublabel:'Avancé',        type:'skill', level:4,
-    description:"Experiment tracking, model registry, versionning. Déclenchement conditionnel du redéploiement dans Wakee Reloaded.",
+    description:"Experiment tracking, model registry, versionning. Redéploiement conditionnel dans Wakee Reloaded.",
     subskills:['Experiment Tracking','Model Registry','Artifacts'], tags:['Avancé'] },
   { id:'docker',      layer:1, abbr:'DO', label:'Docker',       sublabel:'Avancé',        type:'skill', level:4,
     description:"Containerisation des services ML, API et dashboards. Docker Compose pour l'orchestration locale.",
@@ -51,66 +49,73 @@ const NODES = [
     description:"Stockage d'artefacts sur S3, entraînement sur EC2, accès programmatique via Boto3.",
     subskills:['S3','EC2','Boto3','IAM'], tags:['Intermédiaire'] },
   { id:'fastapi',     layer:1, abbr:'FA', label:'FastAPI',      sublabel:'Avancé',        type:'skill', level:4,
-    description:"Exposition de modèles ML sous forme d'API REST. Validation Pydantic, endpoints de prédiction.",
+    description:"Exposition de modèles ML sous forme d'API REST. Pydantic, Uvicorn, endpoints de prédiction.",
     subskills:['REST API','Pydantic','Uvicorn','Endpoints'], tags:['Avancé'] },
   { id:'sklearn',     layer:1, abbr:'SK', label:'Scikit-learn', sublabel:'Expert',        type:'skill', level:5,
-    description:"ML supervisé classique, pipelines de preprocessing, cross-validation, XGBoost, gestion du déséquilibre de classes.",
+    description:"ML supervisé classique, pipelines de preprocessing, cross-validation, XGBoost, SMOTE.",
     subskills:['XGBoost','Pipeline','GridSearchCV','SMOTE'], tags:['Expert'] },
   { id:'transformers',layer:1, abbr:'TR', label:'Transformers', sublabel:'Avancé',        type:'skill', level:4,
-    description:"Intégration Mistral LLM dans Wakee, HuggingFace Transformers, Langchain pour le chaînage de prompts.",
+    description:"Mistral LLM dans Wakee, HuggingFace Transformers, Langchain.",
     subskills:['Mistral','HuggingFace','Langchain','LLM'], tags:['Avancé'] },
 
-  // ── PROJETS ──────────────────────────────────────────────
-  { id:'wakee',        layer:2, abbr:'WK', label:'Wakee',            sublabel:'● LIVE', type:'projet', live:true,
-    description:"Détection d'émotions faciales par CNN (EfficientNet B4) + LLM (Mistral) pour maintenir la concentration. Projet d'équipe (4 personnes). Pipeline MLOps complet.",
-    result:"Déployé sur HuggingFace Spaces. Accès restreint — conformité AI Act.",
-    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker','HuggingFace'], demo:'#', code:'#' },
-  { id:'wakee_r',      layer:2, abbr:'WR', label:'Wakee Reloaded',   sublabel:'● LIVE', type:'projet', live:true,
-    description:"Pipeline de réentraînement continu pour Wakee. Airflow scheduling, MLflow tracking, NeonDB pour les labels, Streamlit pour la labellisation, redéploiement conditionnel via GitHub Actions.",
+  /* ── PROJETS (6) ─────────────────────────────── */
+  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee', sublabel:'local', type:'projet', live:false,
+    description:"CNN EfficientNet B4 + LLM Mistral pour la détection d'émotions faciales. Aide à maintenir la concentration. Projet d'équipe (4 personnes).",
+    result:"Déployé HuggingFace Spaces. Accès restreint — conformité AI Act.",
+    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], 
+    demo:'#', 
+    code:'#' },
+  { id:'wakee_r', layer:2, abbr:'WR', label:'Wakee Reloaded', sublabel:'● LIVE', type:'projet', live:true,
+    description:"Pipeline de réentraînement continu : Airflow scheduling, MLflow tracking, NeonDB, Streamlit labellisation, redéploiement conditionnel GitHub Actions.",
     result:"Réentraînement automatique déclenché par seuil de performance. Zéro intervention manuelle.",
     tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'#', code:'#' },
-  { id:'jobtracker',   layer:2, abbr:'JT', label:'Job Tracker',      sublabel:'● LIVE', type:'projet', live:true,
+  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'● LIVE', type:'projet', live:true,
     description:"Dashboard de suivi de candidatures en temps réel. Statuts, relances, classification par catégorie, détection des candidatures périmées.",
-    result:"Déployé sur HuggingFace Spaces via Docker. Monitoring actif.",
-    tags:['Streamlit','Docker','Python','HuggingFace'], demo:'#', code:'#' },
-  { id:'fddetector',   layer:2, abbr:'FD', label:'FD Detector',      sublabel:'● LIVE', type:'projet', live:true,
-    description:"Détection de transactions frauduleuses. XGBoost, gestion du déséquilibre de classes (SMOTE), API FastAPI, interface Streamlit.",
+    result:"Déployé HuggingFace Spaces via Docker.",
+    tags:['Streamlit','Docker','Python'], demo:'#', code:'#' },
+  { id:'fddet',   layer:2, abbr:'FD', label:'FD Detector',    sublabel:'● LIVE', type:'projet', live:true,
+    description:"Détection de transactions frauduleuses. XGBoost, SMOTE, API FastAPI, interface Streamlit.",
     result:"AUC-ROC 0.94. Pipeline complet preprocessing → modèle → API → UI.",
     tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'#', code:'#' },
-  { id:'rpsls',        layer:2, abbr:'RL', label:'RPSLS',            sublabel:'● LIVE', type:'projet', live:true,
-    description:"Rock Paper Scissors Lizard Spock. Implémentation Python du jeu étendu, déployé sur Render.",
+  { id:'rpsls',   layer:2, abbr:'RL', label:'RPSLS',          sublabel:'● LIVE', type:'projet', live:true,
+    description:"Rock Paper Scissors Lizard Spock en Python, déployé sur Render.",
     result:"Déployé et accessible en ligne.",
     tags:['Python','Render'], demo:'#', code:'#' },
-  { id:'ratp_pl',      layer:2, abbr:'RP', label:'Pipeline RATP',    sublabel:'Interne', type:'projet', live:false,
-    description:"Automatisation Python de l'analyse de régularité train à la seconde près pour le reporting IDFM. Construit en autodidacte.",
-    result:"Deux livrables distincts pour deux décideurs distincts. Précision à la seconde.",
+  { id:'ratp_pl', layer:2, abbr:'RP', label:'Pipeline RATP',  sublabel:'Interne', type:'projet', live:false,
+    description:"Automatisation Python de l'analyse de régularité train à la seconde. Construit en autodidacte pour le reporting IDFM.",
+    result:"Deux livrables distincts pour deux décideurs. Précision à la seconde.",
     tags:['Python','Pandas','Automatisation','IDFM'], code:'#' },
 
-  // ── OUTPUTS ──────────────────────────────────────────────
-  { id:'hf_sp',     layer:3, abbr:'HF', label:'HuggingFace', sublabel:'Spaces',      type:'output',
-    description:"Déploiement de Wakee, Wakee Reloaded et Job Tracker sur HuggingFace Spaces.",
-    url:'#', tags:['Wakee','Wakee Reloaded','Job Tracker'] },
-  { id:'stl_cl',    layer:3, abbr:'ST', label:'Streamlit',   sublabel:'Cloud',       type:'output',
-    description:"Déploiement de FD Detector sur Streamlit Community Cloud.",
-    url:'#', tags:['FD Detector'] },
-  { id:'render',    layer:3, abbr:'RD', label:'Render',      sublabel:'Web Hosting', type:'output',
+  /* ── DEPLOY (4) ── nouvelle couche ───────────── */
+  { id:'hf',    layer:3, abbr:'HF', label:'HuggingFace', sublabel:'Spaces',      type:'deploy',
+    description:"Déploiement de Wakee, Wakee Reloaded et Job Tracker sur HuggingFace Spaces. Intégration GitHub Actions pour le redéploiement conditionnel.",
+    tags:['Wakee','Wakee Reloaded','Job Tracker'], url:'#' },
+  { id:'stl',   layer:3, abbr:'ST', label:'Streamlit',   sublabel:'Cloud',       type:'deploy',
+    description:"Déploiement de FD Detector sur Streamlit Community Cloud. Lié au repo GitHub, mise à jour automatique.",
+    tags:['FD Detector'], url:'#' },
+  { id:'rend',  layer:3, abbr:'RD', label:'Render',      sublabel:'Web Hosting', type:'deploy',
     description:"Hébergement de RPSLS sur Render. Déploiement continu depuis GitHub.",
-    url:'#', tags:['RPSLS'] },
-  { id:'github',    layer:3, abbr:'GH', label:'GitHub',      sublabel:'Code source', type:'output',
-    description:"Code source de l'ensemble des projets. Ce portfolio sur GitHub Pages.",
-    url:'https://github.com/Ter0rra', tags:['Tous les projets'] },
-  { id:'cv',        layer:3, abbr:'CV', label:'Mon CV',      sublabel:'Télécharger', type:'output',
-    description:"CV complet — Data Scientist, MLOps Engineer, Data Analyst. Disponible pour un CDI en Île-de-France / Hauts-de-France.",
-    url:'#', tags:['CDI','IDF','Hauts-de-France'] },
-  { id:'linkedin',  layer:3, abbr:'LI', label:'LinkedIn',    sublabel:'Profil',      type:'output',
+    tags:['RPSLS'], url:'#' },
+  { id:'ghub',  layer:3, abbr:'GH', label:'GitHub',      sublabel:'Code · Pages',type:'deploy',
+    description:"Code source de tous les projets. Ce portfolio sur GitHub Pages. Keep-alive workflow GitHub Actions.",
+    tags:['Tous les projets'], url:'https://github.com/Ter0rra' },
+
+  /* ── SHIP (5) ─────────────────────────────────── */
+  { id:'cv',       layer:4, abbr:'CV', label:'Mon CV',      sublabel:'Télécharger',  type:'ship',
+    description:"CV complet — Data Scientist, MLOps Engineer, Data Analyst. Disponible pour CDI en Île-de-France / Hauts-de-France.",
+    tags:['CDI','IDF','Hauts-de-France'], url:'#' },
+  { id:'linkedin', layer:4, abbr:'LI', label:'LinkedIn',    sublabel:'Profil',       type:'ship',
     description:"Profil LinkedIn avec recommandations, détail des expériences et des projets.",
-    url:'https://linkedin.com/in/albert-romano-ter0rra', tags:['Réseau','Recommandations'] },
-  { id:'linktree',  layer:3, abbr:'LT', label:'Linktree',    sublabel:'Hub de liens',type:'output',
-    description:"Aggregateur de tous mes liens : portfolio, GitHub, HuggingFace Spaces, LinkedIn, CV.",
-    url:'https://linktr.ee/albert.romano', tags:['Portfolio','GitHub','LinkedIn','CV'] },
-  { id:'video',     layer:3, abbr:'VP', label:'Vidéo Pitch', sublabel:'En production',type:'output',
+    tags:['Réseau','Recommandations'], url:'https://linkedin.com/in/albert-romano-ter0rra' },
+  { id:'linktree', layer:4, abbr:'LT', label:'Linktree',    sublabel:'Hub de liens', type:'ship',
+    description:"Aggregateur de liens : GitHub, HuggingFace Spaces, LinkedIn, CV, vidéo pitch.",
+    tags:['GitHub','LinkedIn','CV','Vidéo'], url:'https://linktr.ee/albert.romano' },
+  { id:'video',    layer:4, abbr:'VP', label:'Vidéo Pitch', sublabel:'En production',type:'ship',
     description:"Vidéo de personal branding en cours de production (DaVinci Resolve 21). Raconte le fil RATP → IA → MLOps en 2 minutes.",
-    url:'#', tags:['Personal Branding','DaVinci Resolve','En cours'] },
+    tags:['Personal Branding','DaVinci Resolve','En cours'], url:'#' },
+  { id:'contact',  layer:4, abbr:'@',  label:'Contact',     sublabel:'Email direct', type:'ship',
+    description:"Disponible pour un CDI en Data Science, MLOps ou Data Analytics. Île-de-France / Hauts-de-France. Open à CDD stratégique.",
+    tags:['CDI','IDF','Hauts-de-France'], email:'albert.romano.data@gmail.com' },
 ];
 
 const EDGES = [
@@ -122,38 +127,52 @@ const EDGES = [
   ['databird','python'],['databird','spark'],
 
   // SKILLS → PROJETS
-  ['python','wakee'],['python','wakee_r'],['python','jobtracker'],
-  ['python','fddetector'],['python','rpsls'],['python','ratp_pl'],
+  ['python','wakee'],['python','wakee_r'],['python','jobtrk'],
+  ['python','fddet'],['python','rpsls'],['python','ratp_pl'],
   ['pytorch','wakee'],['pytorch','wakee_r'],
   ['spark','ratp_pl'],
   ['mlflow','wakee'],['mlflow','wakee_r'],
-  ['docker','wakee'],['docker','wakee_r'],['docker','jobtracker'],['docker','fddetector'],
+  ['docker','wakee'],['docker','wakee_r'],['docker','jobtrk'],['docker','fddet'],
   ['airflow','wakee_r'],
   ['aws','wakee'],['aws','ratp_pl'],
-  ['fastapi','fddetector'],
-  ['sklearn','fddetector'],['sklearn','wakee'],
+  ['fastapi','fddet'],
+  ['sklearn','fddet'],['sklearn','wakee'],
   ['transformers','wakee'],['transformers','wakee_r'],
 
-  // SKILLS → OUTPUTS (cross-layer : connexions directes visibles)
-  ['python','hf_sp'],['python','stl_cl'],['python','github'],['python','linktree'],
-  ['docker','hf_sp'],['docker','stl_cl'],
-  ['transformers','hf_sp'],
-  ['sklearn','stl_cl'],
-  ['fastapi','stl_cl'],
-  ['pytorch','hf_sp'],
+  // PROJETS → DEPLOY
+  ['wakee','hf'],['wakee_r','hf'],['jobtrk','hf'],
+  ['fddet','stl'],
+  ['rpsls','rend'],
+  ['wakee','ghub'],['wakee_r','ghub'],['jobtrk','ghub'],
+  ['fddet','ghub'],['rpsls','ghub'],['ratp_pl','ghub'],
 
-  // PROJETS → OUTPUTS
-  ['wakee','hf_sp'],['wakee','github'],['wakee','linkedin'],['wakee','linktree'],['wakee','cv'],
-  ['wakee_r','hf_sp'],['wakee_r','github'],['wakee_r','linkedin'],
-  ['jobtracker','hf_sp'],['jobtracker','github'],['jobtracker','linkedin'],['jobtracker','linktree'],
-  ['fddetector','stl_cl'],['fddetector','github'],['fddetector','linkedin'],['fddetector','cv'],
-  ['rpsls','render'],['rpsls','github'],['rpsls','linktree'],
-  ['ratp_pl','github'],['ratp_pl','cv'],['ratp_pl','linkedin'],
+  // SKILLS → DEPLOY (cross-layer directs)
+  ['python','hf'],['python','stl'],['python','ghub'],
+  ['docker','hf'],['docker','stl'],
+  ['transformers','hf'],
+  ['sklearn','stl'],['fastapi','stl'],
+  ['pytorch','hf'],
 
-  // SOURCES → OUTPUTS
+  // DEPLOY → SHIP
+  ['hf','linktree'],['hf','linkedin'],['hf','cv'],
+  ['stl','linktree'],['stl','linkedin'],
+  ['rend','linktree'],
+  ['ghub','linktree'],['ghub','cv'],
+
+  // SOURCES → SHIP (directs)
   ['ratp','cv'],['ratp','linkedin'],['ratp','video'],
   ['jedha','cv'],['jedha','linkedin'],['jedha','video'],
   ['databird','cv'],
+
+  // PROJETS → SHIP (directs)
+  ['wakee','linkedin'],['wakee_r','linkedin'],
+  ['fddet','linkedin'],['jobtrk','linkedin'],
+  ['ratp_pl','cv'],
+  ['wakee','linktree'],['jobtrk','linktree'],
+  ['contact','linktree'],['cv','linktree'],
+
+  // SHIP interne (agrégation vers linktree)
+  ['linkedin','linktree'],['video','linktree'],
 ];
 
 /* ============================================================
@@ -161,24 +180,23 @@ const EDGES = [
    ============================================================ */
 let positions = {};
 let activeId  = null;
-let scale     = 1;
-let panX      = 0;
-let panY      = 0;
 let particles = [];
 let rafId     = null;
+let scale = 1, panX = 0, panY = 0;
+const PANEL_H_PX = 210; // correspond à --panel-h
 
 /* ============================================================
-   LAYOUT — positions des nœuds
+   POSITIONS
    ============================================================ */
 function computePositions() {
-  const wrapper = document.getElementById('canvasWrapper');
-  const W = wrapper.offsetWidth;
-  const H = wrapper.offsetHeight;
-  const PAD_X = W * 0.09;
-  const PAD_Y = H * 0.08;
+  const w = document.getElementById('canvasWrapper');
+  const W = w.offsetWidth;
+  const H = w.offsetHeight;
+  const PAD_X = W * 0.04;
+  const PAD_Y = H * 0.09;
   const availW = W - 2 * PAD_X;
   const availH = H - 2 * PAD_Y;
-  const result = {};
+  const res = {};
 
   LAYERS.forEach((_, li) => {
     const layerNodes = NODES.filter(n => n.layer === li);
@@ -188,25 +206,25 @@ function computePositions() {
     layerNodes.forEach((node, ni) => {
       let y;
       if (li === 0) {
-        // SOURCES : compressées sur 28% de la hauteur, centrées
-        const rng = availH * 0.28;
+        // SOURCES : compressées sur 30% de la hauteur, centrées
+        const rng = availH * 0.30;
         const start = (H - rng) / 2;
         y = count === 1 ? H / 2 : start + (ni / (count - 1)) * rng;
       } else {
         y = count === 1 ? H / 2 : PAD_Y + (ni / (count - 1)) * availH;
       }
-      result[node.id] = { x, y };
+      res[node.id] = { x, y };
     });
   });
-  return result;
+  return res;
 }
 
 /* ============================================================
    LAYER LABELS
    ============================================================ */
 function renderLayerLabels() {
-  const container = document.getElementById('layerLabels');
-  container.innerHTML = '';
+  const c = document.getElementById('layerLabels');
+  c.innerHTML = '';
   LAYERS.forEach((layer, li) => {
     const layerNodes = NODES.filter(n => n.layer === li);
     if (!layerNodes.length) return;
@@ -214,89 +232,92 @@ function renderLayerLabels() {
     const el = document.createElement('div');
     el.className = 'layer-label';
     el.textContent = layer.label;
-    el.style.left = pos.x + 'px';
+    el.style.left  = pos.x + 'px';
     el.style.color = layer.color;
-    container.appendChild(el);
+    c.appendChild(el);
   });
 }
 
 /* ============================================================
    NŒUDS
    ============================================================ */
-function hexToRgb(hex) {
-  return [
-    parseInt(hex.slice(1,3),16),
-    parseInt(hex.slice(3,5),16),
-    parseInt(hex.slice(5,7),16)
-  ].join(',');
+function hexRgb(h) {
+  return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)].join(',');
 }
 
 function renderNodes() {
   const canvas = document.getElementById('nnCanvas');
   canvas.innerHTML = '';
   NODES.forEach((node, idx) => {
-    const pos = positions[node.id];
+    const pos   = positions[node.id];
     const layer = LAYERS[node.layer];
-    const rgb = hexToRgb(layer.color);
-    const el = document.createElement('div');
+    const rgb   = hexRgb(layer.color);
+    const el    = document.createElement('div');
     el.className = `nn-node${node.live ? ' node-live' : ''}`;
     el.id = `node-${node.id}`;
     el.dataset.id = node.id;
     el.style.cssText = `
       left:${pos.x}px; top:${pos.y}px;
       --nc:${layer.color};
-      --nc-20:rgba(${rgb},.20);
-      --nc-30:rgba(${rgb},.30);
-      --nc-50:rgba(${rgb},.50);
-      --nc-80:rgba(${rgb},.80);
-      animation-delay:${idx * 25}ms;
+      --nc-20:rgba(${rgb},.20); --nc-30:rgba(${rgb},.30);
+      --nc-50:rgba(${rgb},.50); --nc-80:rgba(${rgb},.80);
+      animation-delay:${idx*22}ms;
     `;
     el.innerHTML = `
-      <div class="node-ring">
-        <span class="node-abbr">${node.abbr}</span>
-      </div>
+      <div class="node-ring"><span class="node-abbr">${node.abbr}</span></div>
       <div class="node-label">${node.label}</div>
       <div class="node-sublabel">${node.sublabel}</div>
     `;
-    el.addEventListener('click', (e) => { e.stopPropagation(); onNodeClick(node.id); });
+    el.addEventListener('click', e => { e.stopPropagation(); onNodeClick(node.id); });
     canvas.appendChild(el);
   });
 }
 
 /* ============================================================
-   SVG : CONNEXIONS (toutes visibles par défaut)
+   SVG — CONNEXIONS (dimensions explicites = fix du bug principal)
    ============================================================ */
 function renderConnections() {
   const svg = document.getElementById('svgLayer');
-  // On garde les particules, on supprime uniquement les paths
+  const wrapper = document.getElementById('canvasWrapper');
+  const W = wrapper.offsetWidth;
+  const H = wrapper.offsetHeight;
+
+  // ← FIX CRITIQUE : dimensions explicites sur le SVG
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
   svg.querySelectorAll('.conn-path').forEach(p => p.remove());
 
-  EDGES.forEach(([srcId, tgtId]) => {
-    const s = positions[srcId];
-    const t = positions[tgtId];
+  EDGES.forEach(([sid, tid]) => {
+    const s = positions[sid];
+    const t = positions[tid];
     if (!s || !t) return;
     const dx = (t.x - s.x) * 0.42;
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d', `M${s.x},${s.y} C${s.x+dx},${s.y} ${t.x-dx},${t.y} ${t.x},${t.y}`);
-    path.setAttribute('class', 'conn-path');
-    path.dataset.src = srcId;
-    path.dataset.tgt = tgtId;
-    // Insérer avant les particules
-    svg.insertBefore(path, svg.firstChild);
+    path.setAttribute('class','conn-path');
+    path.dataset.src = sid;
+    path.dataset.tgt = tid;
+    svg.appendChild(path);
   });
 }
 
 /* ============================================================
-   PARTICULES — animation continue de gauche à droite
+   PARTICULES
    ============================================================ */
-function bezierPoint(t, sx, sy, ex, ey) {
-  const dx = (ex - sx) * 0.42;
-  const cx1 = sx + dx, cy1 = sy;
-  const cx2 = ex - dx, cy2 = ey;
-  const mt = 1 - t;
+function bezPt(t, sx,sy,ex,ey) {
+  const dx=(ex-sx)*.42, cx1=sx+dx, cx2=ex-dx, m=1-t;
+  return { x:m*m*m*sx+3*m*m*t*cx1+3*m*t*t*cx2+t*t*t*ex,
+           y:m*m*m*sy+3*m*m*t*cy1+3*m*t*t*cy2+t*t*t*ey };
+  // bug guard: redefine properly
+}
+function bezierPoint(t, sx,sy,ex,ey) {
+  const dx=(ex-sx)*.42;
+  const cx1=sx+dx, cy1=sy, cx2=ex-dx, cy2=ey, m=1-t;
   return {
-    x: mt*mt*mt*sx + 3*mt*mt*t*cx1 + 3*mt*t*t*cx2 + t*t*t*ex,
-    y: mt*mt*mt*sy + 3*mt*mt*t*cy1 + 3*mt*t*t*cy2 + t*t*t*ey,
+    x: m*m*m*sx + 3*m*m*t*cx1 + 3*m*t*t*cx2 + t*t*t*ex,
+    y: m*m*m*sy + 3*m*m*t*cy1 + 3*m*t*t*cy2 + t*t*t*ey,
   };
 }
 
@@ -305,95 +326,78 @@ function initParticles() {
   svg.querySelectorAll('.particle').forEach(p => p.remove());
   particles = [];
 
-  EDGES.forEach(([srcId, tgtId]) => {
-    const s = positions[srcId];
-    const e = positions[tgtId];
+  EDGES.forEach(([sid,tid]) => {
+    const s = positions[sid];
+    const e = positions[tid];
     if (!s || !e) return;
+    const srcNode = NODES.find(n => n.id === sid);
+    const color   = LAYERS[srcNode ? srcNode.layer : 0].color;
 
-    // 1 particule par edge, stagger aléatoire
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    circle.setAttribute('r', '2.2');
-    circle.setAttribute('class', 'particle');
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('class','particle');
+    circle.setAttribute('r','2');
     svg.appendChild(circle);
 
-    const srcNode = NODES.find(n => n.id === srcId);
-    const color = LAYERS[srcNode ? srcNode.layer : 0].color;
-
     particles.push({
-      srcId, tgtId, color,
+      sid, tid, color,
       t: Math.random(),
-      speed: 0.0012 + Math.random() * 0.0008,
-      baseSpeed: 0.0012 + Math.random() * 0.0008,
-      el: circle,
-      active: false,
+      speed: .0013 + Math.random() * .0008,
+      el: circle, active: false,
     });
   });
 }
 
 function animateParticles() {
   particles.forEach(p => {
-    p.t += p.active ? p.speed * 2.5 : p.speed;
+    p.t += p.active ? p.speed * 2.8 : p.speed;
     if (p.t > 1) p.t -= 1;
 
-    const s = positions[p.srcId];
-    const e = positions[p.tgtId];
+    const s = positions[p.sid], e = positions[p.tid];
     if (!s || !e) return;
 
-    const pos = bezierPoint(p.t, s.x, s.y, e.x, e.y);
-    p.el.setAttribute('cx', pos.x);
-    p.el.setAttribute('cy', pos.y);
+    const pt = bezierPoint(p.t, s.x,s.y, e.x,e.y);
+    const fade = p.t < .08 ? p.t/.08 : p.t > .92 ? (1-p.t)/.08 : 1;
+    const opacity = p.active ? .95*fade : .15*fade;
 
-    // Fade aux extrémités
-    const fade = p.t < 0.08 ? p.t / 0.08 : p.t > 0.92 ? (1 - p.t) / 0.08 : 1;
-    const opacity = p.active ? 0.95 * fade : 0.18 * fade;
-    const fillColor = p.active ? p.color : 'rgba(255,255,255,0.6)';
-    const radius = p.active ? '2.8' : '1.8';
-
+    p.el.setAttribute('cx', pt.x);
+    p.el.setAttribute('cy', pt.y);
+    p.el.setAttribute('r',  p.active ? '2.8' : '1.6');
+    p.el.setAttribute('fill', p.active ? p.color : 'rgba(255,255,255,.7)');
     p.el.setAttribute('opacity', opacity);
-    p.el.setAttribute('fill', fillColor);
-    p.el.setAttribute('r', radius);
-
-    // Glow sur particule active
     p.el.style.filter = p.active ? `drop-shadow(0 0 4px ${p.color})` : 'none';
   });
-
   rafId = requestAnimationFrame(animateParticles);
 }
 
 /* ============================================================
    INTERACTION
    ============================================================ */
-function getConnectedSet(nodeId) {
-  const set = new Set();
-  EDGES.forEach(([s,t]) => {
-    if (s === nodeId) set.add(t);
-    if (t === nodeId) set.add(s);
-  });
-  return set;
+function getConnected(id) {
+  const s = new Set();
+  EDGES.forEach(([a,b]) => { if(a===id)s.add(b); if(b===id)s.add(a); });
+  return s;
 }
 
 function onNodeClick(id) {
   if (activeId === id) { resetAll(); return; }
   activeId = id;
 
-  const connected = getConnectedSet(id);
-  const node = NODES.find(n => n.id === id);
+  const connected = getConnected(id);
+  const node  = NODES.find(n => n.id === id);
   const color = LAYERS[node.layer].color;
 
-  // Nœuds : actif → highlighted → dimmed
   document.querySelectorAll('.nn-node').forEach(el => {
     const eid = el.dataset.id;
     el.classList.remove('active','highlighted','dimmed');
-    if (eid === id)            el.classList.add('active');
+    if (eid === id)              el.classList.add('active');
     else if (connected.has(eid)) el.classList.add('highlighted');
-    else                        el.classList.add('dimmed');
+    else                         el.classList.add('dimmed');
   });
 
-  // Connexions : actives en couleur, non-connectées grisées
   document.querySelectorAll('.conn-path').forEach(p => {
-    const isActive = p.dataset.src === id || p.dataset.tgt === id;
+    const on = p.dataset.src===id || p.dataset.tgt===id;
     p.classList.remove('conn-active','conn-dimmed');
-    if (isActive) {
+    if (on) {
       p.classList.add('conn-active');
       p.style.stroke = color;
       p.style.filter = `drop-shadow(0 0 3px ${color}80)`;
@@ -404,14 +408,10 @@ function onNodeClick(id) {
     }
   });
 
-  // Particules : actives sur les connexions liées
-  const edgeSet = new Set(
-    EDGES.filter(([s,t]) => s === id || t === id)
-         .map(([s,t]) => `${s}|${t}`)
+  const edgeKeys = new Set(
+    EDGES.filter(([a,b])=>a===id||b===id).map(([a,b])=>`${a}|${b}`)
   );
-  particles.forEach(p => {
-    p.active = edgeSet.has(`${p.srcId}|${p.tgtId}`);
-  });
+  particles.forEach(p => { p.active = edgeKeys.has(`${p.sid}|${p.tid}`); });
 
   openPanel(id);
 }
@@ -430,82 +430,66 @@ function resetAll() {
 }
 
 /* ============================================================
-   PANNEAU D'INFO
+   PANNEAU BAS
    ============================================================ */
 function openPanel(nodeId) {
   const node  = NODES.find(n => n.id === nodeId);
   const layer = LAYERS[node.layer];
   const color = layer.color;
-  const rgb   = hexToRgb(color);
-  const connected = getConnectedSet(nodeId);
+  const rgb   = hexRgb(color);
+  const connected = getConnected(nodeId);
   const connNodes = NODES.filter(n => connected.has(n.id));
-  const typeLabel = { source:'SOURCE', skill:'SKILL', projet:'PROJET', output:'OUTPUT' };
 
-  let html = '';
+  const typeLabel = {source:'SOURCE',skill:'SKILL',projet:'PROJET',deploy:'DEPLOY',ship:'SHIP'};
 
-  // Badge + titre + description
-  html += `
+  let main = `
     <div class="p-badge" style="color:${color};border-color:rgba(${rgb},.35);background:rgba(${rgb},.08)">
-      ${typeLabel[node.type] || node.type}
+      ${typeLabel[node.type]||node.type.toUpperCase()}
     </div>
     <div class="p-title">${node.label}</div>
     <div class="p-desc">${node.description}</div>
   `;
 
-  // Skill : niveau + sous-compétences
   if (node.type === 'skill') {
-    const dots = Array.from({length:5}, (_,i) =>
-      `<div class="lvl-dot" style="${i < node.level ? `background:${color}` : ''}"></div>`
+    const dots = Array.from({length:5},(_,i)=>
+      `<div class="lvl-dot" style="${i<node.level?`background:${color}`:''}"></div>`
     ).join('');
-    html += `<div class="p-level">${dots}</div>`;
-    const subs = (node.subskills||[]).map(s =>
+    main += `<div class="p-level">${dots}</div>`;
+    main += `<div class="p-tags">${(node.subskills||[]).map(s=>
       `<span class="p-tag" style="color:${color};border-color:rgba(${rgb},.3);background:rgba(${rgb},.07)">${s}</span>`
-    ).join('');
-    html += `<div class="p-tags">${subs}</div>`;
+    ).join('')}</div>`;
   }
 
-  // Résultat (projet / source)
-  if (node.result) html += `<div class="p-result">${node.result}</div>`;
+  if (node.result) main += `<div class="p-result">${node.result}</div>`;
 
-  // Tags
-  if ((node.type === 'projet' || node.type === 'source' || node.type === 'output') && node.tags) {
-    html += `<div class="p-tags">${(node.tags||[]).map(t =>
+  if (node.tags && node.type !== 'skill') {
+    main += `<div class="p-tags">${node.tags.map(t=>
       `<span class="p-tag" style="color:${color};border-color:rgba(${rgb},.3);background:rgba(${rgb},.07)">${t}</span>`
     ).join('')}</div>`;
   }
 
-  // Boutons projet
-  if (node.type === 'projet') {
-    const btns = [];
-    if (node.demo && node.demo !== '#') btns.push(`<a href="${node.demo}" target="_blank" class="btn-p" style="background:${color};color:#050810">→ Voir la démo</a>`);
-    if (node.code && node.code !== '#') btns.push(`<a href="${node.code}" target="_blank" class="btn-s">↗ Code source</a>`);
-    if (btns.length) html += `<div class="p-actions">${btns.join('')}</div>`;
-  }
+  const btns = [];
+  if (node.demo  && node.demo !== '#')  btns.push(`<a href="${node.demo}"  target="_blank" class="btn-p" style="background:${color};color:#050810">→ Voir la démo</a>`);
+  if (node.code  && node.code !== '#')  btns.push(`<a href="${node.code}"  target="_blank" class="btn-s">↗ Code source</a>`);
+  if (node.url   && node.url  !== '#')  btns.push(`<a href="${node.url}"   target="_blank" class="btn-p" style="background:${color};color:#050810">→ Ouvrir</a>`);
+  if (node.email)                        btns.push(`<a href="mailto:${node.email}" class="btn-p" style="background:${color};color:#050810">→ Envoyer un email</a>`);
+  if (btns.length) main += `<div class="p-actions">${btns.join('')}</div>`;
 
-  // Boutons output
-  if (node.type === 'output') {
-    const btns = [];
-    if (node.email) btns.push(`<a href="mailto:${node.email}" class="btn-p" style="background:${color};color:#050810">→ Envoyer un email</a>`);
-    if (node.url && node.url !== '#') btns.push(`<a href="${node.url}" target="_blank" class="btn-p" style="background:${color};color:#050810">→ Ouvrir</a>`);
-    if (btns.length) html += `<div class="p-actions">${btns.join('')}</div>`;
-  }
+  const sideItems = connNodes.map(cn => {
+    const cl = LAYERS[cn.layer];
+    return `<div class="conn-item">
+      <div class="conn-dot" style="background:${cl.color}"></div>
+      <span>${cn.label}</span>
+    </div>`;
+  }).join('');
 
-  // Connexions actives
-  if (connNodes.length) {
-    html += `<div class="p-divider"></div>`;
-    html += `<div class="p-conn-title">Connexions actives (${connNodes.length})</div>`;
-    html += `<div class="p-conn-list">`;
-    connNodes.forEach(cn => {
-      const cl = LAYERS[cn.layer];
-      html += `<div class="p-conn-item">
-        <div class="p-conn-dot" style="background:${cl.color}"></div>
-        <span>${cn.label}</span>
-      </div>`;
-    });
-    html += `</div>`;
-  }
-
-  document.getElementById('panelScroll').innerHTML = html;
+  document.getElementById('panelBody').innerHTML = `
+    <div class="pb-main">${main}</div>
+    <div class="pb-side">
+      <div class="conn-title">Connexions (${connNodes.length})</div>
+      <div class="conn-list">${sideItems}</div>
+    </div>
+  `;
   document.getElementById('infoPanel').classList.add('open');
 }
 
@@ -514,96 +498,98 @@ function closePanel() {
 }
 
 /* ============================================================
-   ZOOM & PAN
+   ZOOM & PAN — molette + drag
    ============================================================ */
-const canvasWrapper = document.getElementById('canvasWrapper');
-const zoomContainer = document.getElementById('zoomContainer');
+const wrapper = document.getElementById('canvasWrapper');
+const zoomEl  = document.getElementById('zoomContainer');
 
 function applyTransform() {
-  zoomContainer.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
+  zoomEl.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
 }
 
-// Zoom à la molette (centré sur la souris)
-canvasWrapper.addEventListener('wheel', e => {
+// Zoom molette
+wrapper.addEventListener('wheel', e => {
   e.preventDefault();
-  const rect = canvasWrapper.getBoundingClientRect();
+  const rect = wrapper.getBoundingClientRect();
   const mx = e.clientX - rect.left;
   const my = e.clientY - rect.top;
-  const oldScale = scale;
-  scale = Math.max(0.25, Math.min(5, scale * (e.deltaY < 0 ? 1.1 : 0.9)));
-  // Garder le point sous la souris stable
-  panX = mx - (mx - panX) * (scale / oldScale);
-  panY = my - (my - panY) * (scale / oldScale);
+  const old = scale;
+  scale = Math.max(.25, Math.min(5, scale * (e.deltaY < 0 ? 1.1 : 0.9)));
+  panX = mx - (mx - panX) * (scale / old);
+  panY = my - (my - panY) * (scale / old);
   applyTransform();
 }, { passive: false });
 
-// Pan à la souris (drag)
-let isPanning = false, panStart = {x:0, y:0};
+// Drag pan
+let dragging = false, dragStart = { x:0, y:0 };
 
-canvasWrapper.addEventListener('mousedown', e => {
+wrapper.addEventListener('mousedown', e => {
   if (e.target.closest('.nn-node')) return;
-  isPanning = true;
-  panStart = { x: e.clientX - panX, y: e.clientY - panY };
+  dragging = true;
+  dragStart = { x: e.clientX - panX, y: e.clientY - panY };
+  wrapper.classList.add('panning');
 });
 window.addEventListener('mousemove', e => {
-  if (!isPanning) return;
-  panX = e.clientX - panStart.x;
-  panY = e.clientY - panStart.y;
+  if (!dragging) return;
+  panX = e.clientX - dragStart.x;
+  panY = e.clientY - dragStart.y;
   applyTransform();
 });
-window.addEventListener('mouseup', () => { isPanning = false; });
+window.addEventListener('mouseup', () => {
+  dragging = false;
+  wrapper.classList.remove('panning');
+});
 
-// Click fond : désélectionner
-canvasWrapper.addEventListener('click', e => {
+// Double-clic → reset
+wrapper.addEventListener('dblclick', e => {
+  if (e.target.closest('.nn-node')) return;
+  scale=1; panX=0; panY=0; applyTransform();
+});
+
+// Click fond → désélectionner
+wrapper.addEventListener('click', e => {
   if (!e.target.closest('.nn-node')) resetAll();
 });
 
-// Double-clic : reset zoom
-canvasWrapper.addEventListener('dblclick', e => {
-  if (!e.target.closest('.nn-node')) {
-    scale = 1; panX = 0; panY = 0; applyTransform();
-  }
-});
-
-// Touch pan (mobile)
-let touchStart = null;
-canvasWrapper.addEventListener('touchstart', e => {
-  if (e.touches.length === 1 && !e.target.closest('.nn-node')) {
-    touchStart = { x: e.touches[0].clientX - panX, y: e.touches[0].clientY - panY };
-  }
+// Touch pan
+let tp = null;
+wrapper.addEventListener('touchstart', e => {
+  if (e.touches.length===1 && !e.target.closest('.nn-node'))
+    tp = { x: e.touches[0].clientX - panX, y: e.touches[0].clientY - panY };
 }, { passive:true });
-canvasWrapper.addEventListener('touchmove', e => {
-  if (e.touches.length === 1 && touchStart) {
-    panX = e.touches[0].clientX - touchStart.x;
-    panY = e.touches[0].clientY - touchStart.y;
+wrapper.addEventListener('touchmove', e => {
+  if (e.touches.length===1 && tp) {
+    panX = e.touches[0].clientX - tp.x;
+    panY = e.touches[0].clientY - tp.y;
     applyTransform();
   }
 }, { passive:true });
-canvasWrapper.addEventListener('touchend', () => { touchStart = null; });
+wrapper.addEventListener('touchend', () => { tp = null; });
 
 /* ============================================================
-   ESC / FERMER
+   FERMER
    ============================================================ */
 document.getElementById('panelClose').addEventListener('click', resetAll);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') resetAll(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') resetAll(); });
 
 /* ============================================================
-   INIT & RESIZE
+   INIT
    ============================================================ */
 function init() {
   if (rafId) cancelAnimationFrame(rafId);
   positions = computePositions();
   renderLayerLabels();
   renderNodes();
-  renderConnections();
+  renderConnections(); // ← SVG dimensions fixées ici
   initParticles();
   animateParticles();
 }
 
-window.addEventListener('load', init);
+// setTimeout pour laisser le navigateur calculer les dimensions CSS
+window.addEventListener('load', () => setTimeout(init, 80));
 
-let resizeTimer;
+let rt;
 window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => { resetAll(); scale=1; panX=0; panY=0; init(); }, 120);
+  clearTimeout(rt);
+  rt = setTimeout(() => { resetAll(); scale=1; panX=0; panY=0; init(); }, 150);
 });
