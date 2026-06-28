@@ -81,6 +81,9 @@ body::before {
 .zoom-container {
   position:absolute; top:0; left:0; width:100%; height:100%;
   transform-origin:0 0; will-change:transform;
+  /* Force GPU compositing pour éviter le flou au zoom */
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
 }
 
 /* Le SVG a des dimensions fixes posées par JS */
@@ -114,10 +117,28 @@ body::before {
 .nn-node.highlighted .node-ring { border-color:var(--nc); box-shadow:0 0 16px var(--nc-30); }
 .nn-node.dimmed { opacity:.1; }
 
-.node-abbr    { font-family:var(--font-m); font-size:11px; font-weight:500; color:var(--nc,#888); letter-spacing:.04em; }
-.node-label   { font-family:var(--font-d); font-size:10px; font-weight:600; color:var(--text); text-align:center; white-space:nowrap; max-width:88px; overflow:hidden; text-overflow:ellipsis; }
-.node-sublabel{ font-family:var(--font-m); font-size:8px; color:var(--muted2); text-align:center; margin-top:-3px; }
-.nn-node.node-live .node-sublabel { color:var(--c-shi); animation:pulse-dot 2.5s ease-in-out infinite; }
+.node-abbr    { font-family:var(--font-m); font-size:12px; font-weight:600; color:var(--nc,#888); letter-spacing:.04em; }
+.node-label   {
+  font-family:var(--font-d); font-size:11px; font-weight:600;
+  color:var(--text); text-align:center;
+  white-space:nowrap; max-width:96px;
+  overflow:hidden; text-overflow:ellipsis;
+  background:rgba(5,8,16,.75); padding:1px 4px; border-radius:3px;
+  /* Antialiasing au zoom */
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+.node-sublabel{
+  font-family:var(--font-m); font-size:8px;
+  color:var(--muted2); text-align:center; margin-top:-2px;
+  background:rgba(5,8,16,.65); padding:0 3px; border-radius:2px;
+  opacity:0; transition:opacity .2s;   /* masqué par défaut */
+}
+/* Sublabel visible au hover ou quand le nœud est actif/highlighted */
+.nn-node:hover .node-sublabel,
+.nn-node.active .node-sublabel,
+.nn-node.highlighted .node-sublabel { opacity:1; }
+.nn-node.node-live .node-sublabel { color:var(--c-shi); animation:pulse-dot 2.5s ease-in-out infinite; opacity:1; }
 
 /* ── SVG CONNEXIONS ── */
 .conn-path {

@@ -26,63 +26,52 @@ const NODES = [
     result:"Bases analytiques solides. Transition vers ML.",
     tags:['SQL','Python','Visualisation','Analyse'] },
 
-  /* ── SKILLS (10) ─────────────────────────────── */
-  { id:'python',      layer:1, abbr:'PY', label:'Python',       sublabel:'Expert',        type:'skill', level:5,
-    description:"Langage principal. Intégralité des projets, de l'exploration à la production.",
-    subskills:['Pandas','NumPy','Plotly','Boto3','SpaCy'], tags:['Expert'] },
-  { id:'pytorch',     layer:1, abbr:'PT', label:'PyTorch',      sublabel:'Avancé',        type:'skill', level:4,
-    description:"Deep learning. CNN EfficientNet B4 (Wakee), transfer learning, boucle d'entraînement custom.",
-    subskills:['EfficientNet B4','Transfer Learning','CNN','DataLoader'], tags:['Avancé'] },
-  { id:'spark',       layer:1, abbr:'SP', label:'SQL · PySpark', sublabel:'Avancé',       type:'skill', level:4,
-    description:"SQL pour l'analyse, PySpark/Databricks pour le traitement distribué.",
-    subskills:['PySpark','Databricks','SQL','Delta Lake'], tags:['Avancé'] },
-  { id:'mlflow',      layer:1, abbr:'MF', label:'MLflow',       sublabel:'Avancé',        type:'skill', level:4,
-    description:"Experiment tracking, model registry, versionning. Redéploiement conditionnel dans Wakee Reloaded.",
-    subskills:['Experiment Tracking','Model Registry','Artifacts'], tags:['Avancé'] },
-  { id:'docker',      layer:1, abbr:'DO', label:'Docker',       sublabel:'Avancé',        type:'skill', level:4,
-    description:"Containerisation des services ML, API et dashboards. Docker Compose pour l'orchestration locale.",
-    subskills:['Docker Compose','Dockerfile','Docker Hub'], tags:['Avancé'] },
-  { id:'airflow',     layer:1, abbr:'AF', label:'Airflow',      sublabel:'Avancé',        type:'skill', level:4,
-    description:"Orchestration du pipeline de réentraînement continu Wakee Reloaded. DAGs Python, scheduling, triggers conditionnels.",
-    subskills:['DAGs','Scheduling','Sensors','XComs'], tags:['Avancé'] },
-  { id:'aws',         layer:1, abbr:'AW', label:'AWS',          sublabel:'Intermédiaire', type:'skill', level:3,
-    description:"Stockage d'artefacts sur S3, entraînement sur EC2, accès programmatique via Boto3.",
-    subskills:['S3','EC2','Boto3','IAM'], tags:['Intermédiaire'] },
-  { id:'fastapi',     layer:1, abbr:'FA', label:'FastAPI',      sublabel:'Avancé',        type:'skill', level:4,
-    description:"Exposition de modèles ML sous forme d'API REST. Pydantic, Uvicorn, endpoints de prédiction.",
-    subskills:['REST API','Pydantic','Uvicorn','Endpoints'], tags:['Avancé'] },
-  { id:'sklearn',     layer:1, abbr:'SK', label:'Scikit-learn', sublabel:'Expert',        type:'skill', level:5,
-    description:"ML supervisé classique, pipelines de preprocessing, cross-validation, XGBoost, SMOTE.",
-    subskills:['XGBoost','Pipeline','GridSearchCV','SMOTE'], tags:['Expert'] },
-  { id:'transformers',layer:1, abbr:'TR', label:'Transformers', sublabel:'Avancé',        type:'skill', level:4,
-    description:"Mistral LLM dans Wakee, HuggingFace Transformers, Langchain.",
-    subskills:['Mistral','HuggingFace','Langchain','LLM'], tags:['Avancé'] },
+  /* ── SKILLS (7 groupes : fondations → production) ── */
+  { id:'s_py',  layer:1, abbr:'PY',  label:'Python',           sublabel:'Expert',   type:'skill', level:5,
+    description:"Langage socle de l\'intégralité des projets, de l\'exploration à la production.",
+    subskills:['Pandas','NumPy','Plotly','SpaCy','Boto3'], tags:['Expert'] },
+  { id:'s_de',  layer:1, abbr:'DE',  label:'Data Engineering', sublabel:'Avancé',   type:'skill', level:4,
+    description:"Structurer et traiter la donnée à grande échelle avant toute modélisation.",
+    subskills:['SQL','PySpark','Databricks','Delta Lake'], tags:['Avancé'] },
+  { id:'s_ml',  layer:1, abbr:'ML',  label:'ML Classique',     sublabel:'Expert',   type:'skill', level:5,
+    description:"Fondamentaux statistiques du machine learning supervisé et non supervisé.",
+    subskills:['Scikit-learn','XGBoost','SMOTE','Pipeline','GridSearchCV'], tags:['Expert'] },
+  { id:'s_dl',  layer:1, abbr:'DL',  label:'Deep Learning',    sublabel:'Avancé',   type:'skill', level:4,
+    description:"Réseaux de neurones profonds, transfer learning, vision par ordinateur.",
+    subskills:['PyTorch','EfficientNet B4','CNN','Transfer Learning','FastAPI'], tags:['Avancé'] },
+  { id:'s_llm', layer:1, abbr:'LLM', label:'LLM & NLP',        sublabel:'Avancé',   type:'skill', level:4,
+    description:"Grands modèles de langage, chaînage de prompts, NLP appliqué.",
+    subskills:['Transformers','Mistral','Langchain','HuggingFace'], tags:['Avancé'] },
+  { id:'s_ops', layer:1, abbr:'OPS', label:'MLOps',            sublabel:'Avancé',   type:'skill', level:4,
+    description:"Opérationnalisation ML : orchestration, tracking, CI/CD, monitoring.",
+    subskills:['MLflow','Airflow','GitHub Actions','NeonDB'], tags:['Avancé'] },
+  { id:'s_inf', layer:1, abbr:'IF',  label:'Infrastructure',   sublabel:'Avancé',   type:'skill', level:4,
+    description:"Socle de déploiement : containerisation, cloud, accès programmatique.",
+    subskills:['Docker','AWS S3','EC2','Boto3','Docker Compose'], tags:['Avancé'] },
 
   /* ── PROJETS (6) ─────────────────────────────── */
-  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee', sublabel:'local', type:'projet', live:false,
+  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee',          sublabel:'in local', type:'projet', live:false,
     description:"CNN EfficientNet B4 + LLM Mistral pour la détection d'émotions faciales. Aide à maintenir la concentration. Projet d'équipe (4 personnes).",
     result:"Déployé HuggingFace Spaces. Accès restreint — conformité AI Act.",
-    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], 
-    demo:'#', 
-    code:'#' },
+    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], demo:'#', code:'https://github.com/Ter0rra/Wakee' },
   { id:'wakee_r', layer:2, abbr:'WR', label:'Wakee Reloaded', sublabel:'● LIVE', type:'projet', live:true,
     description:"Pipeline de réentraînement continu : Airflow scheduling, MLflow tracking, NeonDB, Streamlit labellisation, redéploiement conditionnel GitHub Actions.",
     result:"Réentraînement automatique déclenché par seuil de performance. Zéro intervention manuelle.",
-    tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'#', code:'#' },
-  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'● LIVE', type:'projet', live:true,
+    tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'#', code:'https://github.com/Ter0rra/wakee-reloaded' },
+  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'Private', type:'projet', live:false,
     description:"Dashboard de suivi de candidatures en temps réel. Statuts, relances, classification par catégorie, détection des candidatures périmées.",
     result:"Déployé HuggingFace Spaces via Docker.",
     tags:['Streamlit','Docker','Python'], demo:'#', code:'#' },
   { id:'fddet',   layer:2, abbr:'FD', label:'FD Detector',    sublabel:'● LIVE', type:'projet', live:true,
     description:"Détection de transactions frauduleuses. XGBoost, SMOTE, API FastAPI, interface Streamlit.",
     result:"AUC-ROC 0.94. Pipeline complet preprocessing → modèle → API → UI.",
-    tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'#', code:'#' },
+    tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'#', code:'https://github.com/Ter0rra/03_Jedha_aia_bloc_3_fraud_detector' },
   { id:'rpsls',   layer:2, abbr:'RL', label:'RPSLS',          sublabel:'● LIVE', type:'projet', live:true,
     description:"Rock Paper Scissors Lizard Spock en Python, déployé sur Render.",
     result:"Déployé et accessible en ligne.",
-    tags:['Python','Render'], demo:'#', code:'#' },
+    tags:['Python','Render'], demo:'#', code:'https://github.com/Ter0rra/RPSLS_DeepQlearn' },
   { id:'ratp_pl', layer:2, abbr:'RP', label:'Pipeline RATP',  sublabel:'Interne', type:'projet', live:false,
-    description:"Automatisation Python de l'analyse de régularité train à la seconde. Construit en autodidacte pour le reporting IDFM.",
+    description:"Automatisation Python de l'analyse de régularité train à la seconde. Construit en autodidacte pour le reporting RATP ligne 11.",
     result:"Deux livrables distincts pour deux décideurs. Précision à la seconde.",
     tags:['Python','Pandas','Automatisation','IDFM'], code:'#' },
 
@@ -109,7 +98,7 @@ const NODES = [
     tags:['Réseau','Recommandations'], url:'https://linkedin.com/in/albert-romano-ter0rra' },
   { id:'linktree', layer:4, abbr:'LT', label:'Linktree',    sublabel:'Hub de liens', type:'ship',
     description:"Aggregateur de liens : GitHub, HuggingFace Spaces, LinkedIn, CV, vidéo pitch.",
-    tags:['GitHub','LinkedIn','CV','Vidéo'], url:'https://linktr.ee/albert.romano' },
+    tags:['GitHub','LinkedIn','CV','Vidéo'], url:'#' },
   { id:'video',    layer:4, abbr:'VP', label:'Vidéo Pitch', sublabel:'En production',type:'ship',
     description:"Vidéo de personal branding en cours de production (DaVinci Resolve 21). Raconte le fil RATP → IA → MLOps en 2 minutes.",
     tags:['Personal Branding','DaVinci Resolve','En cours'], url:'#' },
@@ -120,59 +109,53 @@ const NODES = [
 
 const EDGES = [
   // SOURCES → SKILLS
-  ['ratp','python'],['ratp','spark'],
-  ['jedha','python'],['jedha','pytorch'],['jedha','spark'],['jedha','mlflow'],
-  ['jedha','docker'],['jedha','airflow'],['jedha','aws'],['jedha','fastapi'],
-  ['jedha','sklearn'],['jedha','transformers'],
-  ['databird','python'],['databird','spark'],
+  ['ratp',    's_py'], ['ratp',    's_de'], ['ratp',    's_ops'],
+  ['jedha',   's_py'], ['jedha',   's_de'], ['jedha',   's_ml'],
+  ['jedha',   's_dl'], ['jedha',   's_llm'],['jedha',   's_ops'],['jedha','s_inf'],
+  ['databird','s_py'], ['databird','s_de'],
 
   // SKILLS → PROJETS
-  ['python','wakee'],['python','wakee_r'],['python','jobtrk'],
-  ['python','fddet'],['python','rpsls'],['python','ratp_pl'],
-  ['pytorch','wakee'],['pytorch','wakee_r'],
-  ['spark','ratp_pl'],
-  ['mlflow','wakee'],['mlflow','wakee_r'],
-  ['docker','wakee'],['docker','wakee_r'],['docker','jobtrk'],['docker','fddet'],
-  ['airflow','wakee_r'],
-  ['aws','wakee'],['aws','ratp_pl'],
-  ['fastapi','fddet'],
-  ['sklearn','fddet'],['sklearn','wakee'],
-  ['transformers','wakee'],['transformers','wakee_r'],
+  ['s_py', 'wakee'], ['s_py', 'wakee_r'], ['s_py', 'jobtrk'],
+  ['s_py', 'fddet'], ['s_py', 'rpsls'],   ['s_py', 'ratp_pl'],
+  ['s_de', 'ratp_pl'],
+  ['s_ml', 'fddet'], ['s_ml', 'wakee'],
+  ['s_dl', 'wakee'], ['s_dl', 'wakee_r'],
+  ['s_llm','wakee'], ['s_llm','wakee_r'],
+  ['s_ops','wakee_r'],
+  ['s_inf','wakee'], ['s_inf','wakee_r'], ['s_inf','jobtrk'], ['s_inf','fddet'],
 
   // PROJETS → DEPLOY
-  ['wakee','hf'],['wakee_r','hf'],['jobtrk','hf'],
-  ['fddet','stl'],
-  ['rpsls','rend'],
-  ['wakee','ghub'],['wakee_r','ghub'],['jobtrk','ghub'],
-  ['fddet','ghub'],['rpsls','ghub'],['ratp_pl','ghub'],
+  ['wakee',   'hf'],   ['wakee_r','hf'],  ['jobtrk','hf'],
+  ['fddet',   'stl'],
+  ['rpsls',   'rend'],
+  ['wakee',   'ghub'], ['wakee_r','ghub'],['jobtrk','ghub'],
+  ['fddet',   'ghub'], ['rpsls',  'ghub'],['ratp_pl','ghub'],
 
-  // SKILLS → DEPLOY (cross-layer directs)
-  ['python','hf'],['python','stl'],['python','ghub'],
-  ['docker','hf'],['docker','stl'],
-  ['transformers','hf'],
-  ['sklearn','stl'],['fastapi','stl'],
-  ['pytorch','hf'],
+  // SKILLS → DEPLOY (cross-layer)
+  ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
+  ['s_inf','hf'],['s_inf','stl'],
+  ['s_dl', 'hf'],
+  ['s_llm','hf'],
+  ['s_ops','ghub'],
+  ['s_ml', 'stl'],
 
   // DEPLOY → SHIP
-  ['hf','linktree'],['hf','linkedin'],['hf','cv'],
-  ['stl','linktree'],['stl','linkedin'],
+  ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
+  ['stl', 'linktree'],['stl', 'linkedin'],
   ['rend','linktree'],
   ['ghub','linktree'],['ghub','cv'],
 
-  // SOURCES → SHIP (directs)
-  ['ratp','cv'],['ratp','linkedin'],['ratp','video'],
-  ['jedha','cv'],['jedha','linkedin'],['jedha','video'],
+  // SOURCES → SHIP
+  ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
+  ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
   ['databird','cv'],
 
-  // PROJETS → SHIP (directs)
-  ['wakee','linkedin'],['wakee_r','linkedin'],
-  ['fddet','linkedin'],['jobtrk','linkedin'],
+  // PROJETS → SHIP
+  ['wakee',  'linkedin'],['wakee_r','linkedin'],
+  ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
   ['ratp_pl','cv'],
-  ['wakee','linktree'],['jobtrk','linktree'],
-  ['contact','linktree'],['cv','linktree'],
-
-  // SHIP interne (agrégation vers linktree)
-  ['linkedin','linktree'],['video','linktree'],
+  ['wakee',  'linktree'],['jobtrk', 'linktree'],
+  ['cv',     'linktree'],['linkedin','linktree'],['video','linktree'],
 ];
 
 /* ============================================================
@@ -372,35 +355,60 @@ function animateParticles() {
 /* ============================================================
    INTERACTION
    ============================================================ */
+/* Connexions directes (pour le panneau) */
 function getConnected(id) {
   const s = new Set();
   EDGES.forEach(([a,b]) => { if(a===id)s.add(b); if(b===id)s.add(a); });
   return s;
 }
 
+/* Propagation transitive : remonte vers SOURCES et descend vers SHIP */
+function getFullPath(id) {
+  const path = new Set([id]);
+
+  function forward(nid) {           // SOURCES → SHIP
+    EDGES.forEach(([a,b]) => {
+      if (a === nid && !path.has(b)) { path.add(b); forward(b); }
+    });
+  }
+  function backward(nid) {          // SHIP → SOURCES
+    EDGES.forEach(([a,b]) => {
+      if (b === nid && !path.has(a)) { path.add(a); backward(a); }
+    });
+  }
+
+  forward(id);
+  backward(id);
+  return path;
+}
+
 function onNodeClick(id) {
   if (activeId === id) { resetAll(); return; }
   activeId = id;
 
-  const connected = getConnected(id);
-  const node  = NODES.find(n => n.id === id);
-  const color = LAYERS[node.layer].color;
+  // Chemin complet : toutes les couches traversées
+  const path = getFullPath(id);
 
+  // Nœuds
   document.querySelectorAll('.nn-node').forEach(el => {
     const eid = el.dataset.id;
     el.classList.remove('active','highlighted','dimmed');
-    if (eid === id)              el.classList.add('active');
-    else if (connected.has(eid)) el.classList.add('highlighted');
-    else                         el.classList.add('dimmed');
+    if (eid === id)        el.classList.add('active');
+    else if (path.has(eid)) el.classList.add('highlighted');
+    else                    el.classList.add('dimmed');
   });
 
+  // Connexions : active si les DEUX extrémités sont dans le chemin
+  // Couleur = couleur de la couche SOURCE de l'edge (gradient naturel)
   document.querySelectorAll('.conn-path').forEach(p => {
-    const on = p.dataset.src===id || p.dataset.tgt===id;
+    const inPath = path.has(p.dataset.src) && path.has(p.dataset.tgt);
     p.classList.remove('conn-active','conn-dimmed');
-    if (on) {
+    if (inPath) {
       p.classList.add('conn-active');
-      p.style.stroke = color;
-      p.style.filter = `drop-shadow(0 0 3px ${color}80)`;
+      const srcNode = NODES.find(n => n.id === p.dataset.src);
+      const edgeColor = LAYERS[srcNode ? srcNode.layer : 0].color;
+      p.style.stroke = edgeColor;
+      p.style.filter = `drop-shadow(0 0 3px ${edgeColor}70)`;
     } else {
       p.classList.add('conn-dimmed');
       p.style.stroke = '';
@@ -408,10 +416,11 @@ function onNodeClick(id) {
     }
   });
 
-  const edgeKeys = new Set(
-    EDGES.filter(([a,b])=>a===id||b===id).map(([a,b])=>`${a}|${b}`)
+  // Particules : actives sur tous les edges du chemin
+  const activeEdgeSet = new Set(
+    EDGES.filter(([a,b]) => path.has(a) && path.has(b)).map(([a,b]) => `${a}|${b}`)
   );
-  particles.forEach(p => { p.active = edgeKeys.has(`${p.sid}|${p.tid}`); });
+  particles.forEach(p => { p.active = activeEdgeSet.has(`${p.sid}|${p.tid}`); });
 
   openPanel(id);
 }
