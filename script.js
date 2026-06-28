@@ -129,7 +129,8 @@ const EDGES = [
   ['fddet',   'stl'],
   ['rpsls',   'rend'],
   ['wakee',   'ghub'], ['wakee_r','ghub'],['jobtrk','ghub'],
-  ['fddet',   'ghub'], ['rpsls',  'ghub'],['ratp_pl','ghub'],
+  ['fddet',   'ghub'], ['rpsls',  'ghub'],
+  // ['ratp_pl','ghub'],
 
   // SKILLS → DEPLOY (cross-layer)
   // ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
