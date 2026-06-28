@@ -132,30 +132,30 @@ const EDGES = [
   ['fddet',   'ghub'], ['rpsls',  'ghub'],['ratp_pl','ghub'],
 
   // SKILLS → DEPLOY (cross-layer)
-  ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
-  ['s_inf','hf'],['s_inf','stl'],
-  ['s_dl', 'hf'],
-  ['s_llm','hf'],
-  ['s_ops','ghub'],
-  ['s_ml', 'stl'],
+  // ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
+  // ['s_inf','hf'],['s_inf','stl'],
+  // ['s_dl', 'hf'],
+  // ['s_llm','hf'],
+  // ['s_ops','ghub'],
+  // ['s_ml', 'stl'],
 
   // DEPLOY → SHIP
-  ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
-  ['stl', 'linktree'],['stl', 'linkedin'],
-  ['rend','linktree'],
-  ['ghub','linktree'],['ghub','cv'],
+  // ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
+  // ['stl', 'linktree'],['stl', 'linkedin'],
+  // ['rend','linktree'],
+  ['ghub','linktree'],['ghub','cv'],['ghub',  'linkedin'],
 
   // SOURCES → SHIP
-  ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
-  ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
-  ['databird','cv'],
+  // ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
+  // ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
+  // ['databird','cv'],
 
   // PROJETS → SHIP
-  ['wakee',  'linkedin'],['wakee_r','linkedin'],
-  ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
-  ['ratp_pl','cv'],
-  ['wakee',  'linktree'],['jobtrk', 'linktree'],
-  ['cv',     'linktree'],['linkedin','linktree'],['video','linktree'],
+  // ['wakee','linkedin'],['wakee_r','linkedin'],
+  // ['fddet','linkedin'],['jobtrk', 'linkedin'],
+  // ['ratp_pl','cv'],
+  // ['wakee','linktree'],['jobtrk', 'linktree'],
+  ['cv','linktree'],['linkedin','linktree'],['video','linktree'],
 ];
 
 /* ============================================================
