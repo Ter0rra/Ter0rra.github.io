@@ -50,28 +50,28 @@ const NODES = [
     subskills:['Docker','AWS S3','EC2','Boto3','Docker Compose'], tags:['Avancé'] },
 
   /* ── PROJETS (6) ─────────────────────────────── */
-  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee',          sublabel:'in local', type:'projet', live:false,
+  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee',          sublabel:'● LIVE', type:'projet', live:true,
     description:"CNN EfficientNet B4 + LLM Mistral pour la détection d'émotions faciales. Aide à maintenir la concentration. Projet d'équipe (4 personnes).",
     result:"Déployé HuggingFace Spaces. Accès restreint — conformité AI Act.",
-    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], demo:'#', code:'https://github.com/Ter0rra/Wakee' },
+    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], demo:'#', code:'#' },
   { id:'wakee_r', layer:2, abbr:'WR', label:'Wakee Reloaded', sublabel:'● LIVE', type:'projet', live:true,
     description:"Pipeline de réentraînement continu : Airflow scheduling, MLflow tracking, NeonDB, Streamlit labellisation, redéploiement conditionnel GitHub Actions.",
     result:"Réentraînement automatique déclenché par seuil de performance. Zéro intervention manuelle.",
-    tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'#', code:'https://github.com/Ter0rra/wakee-reloaded' },
-  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'Private', type:'projet', live:false,
+    tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'#', code:'#' },
+  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'● LIVE', type:'projet', live:true,
     description:"Dashboard de suivi de candidatures en temps réel. Statuts, relances, classification par catégorie, détection des candidatures périmées.",
     result:"Déployé HuggingFace Spaces via Docker.",
     tags:['Streamlit','Docker','Python'], demo:'#', code:'#' },
   { id:'fddet',   layer:2, abbr:'FD', label:'FD Detector',    sublabel:'● LIVE', type:'projet', live:true,
     description:"Détection de transactions frauduleuses. XGBoost, SMOTE, API FastAPI, interface Streamlit.",
     result:"AUC-ROC 0.94. Pipeline complet preprocessing → modèle → API → UI.",
-    tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'#', code:'https://github.com/Ter0rra/03_Jedha_aia_bloc_3_fraud_detector' },
+    tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'#', code:'#' },
   { id:'rpsls',   layer:2, abbr:'RL', label:'RPSLS',          sublabel:'● LIVE', type:'projet', live:true,
     description:"Rock Paper Scissors Lizard Spock en Python, déployé sur Render.",
     result:"Déployé et accessible en ligne.",
-    tags:['Python','Render'], demo:'#', code:'https://github.com/Ter0rra/RPSLS_DeepQlearn' },
+    tags:['Python','Render'], demo:'#', code:'#' },
   { id:'ratp_pl', layer:2, abbr:'RP', label:'Pipeline RATP',  sublabel:'Interne', type:'projet', live:false,
-    description:"Automatisation Python de l'analyse de régularité train à la seconde. Construit en autodidacte pour le reporting RATP ligne 11.",
+    description:"Automatisation Python de l'analyse de régularité train à la seconde. Construit en autodidacte pour le reporting IDFM.",
     result:"Deux livrables distincts pour deux décideurs. Précision à la seconde.",
     tags:['Python','Pandas','Automatisation','IDFM'], code:'#' },
 
@@ -129,34 +129,33 @@ const EDGES = [
   ['fddet',   'stl'],
   ['rpsls',   'rend'],
   ['wakee',   'ghub'], ['wakee_r','ghub'],['jobtrk','ghub'],
-  ['fddet',   'ghub'], ['rpsls',  'ghub'],
-  // ['ratp_pl','ghub'],
+  ['fddet',   'ghub'], ['rpsls',  'ghub'],['ratp_pl','ghub'],
 
   // SKILLS → DEPLOY (cross-layer)
-  // ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
-  // ['s_inf','hf'],['s_inf','stl'],
-  // ['s_dl', 'hf'],
-  // ['s_llm','hf'],
-  // ['s_ops','ghub'],
-  // ['s_ml', 'stl'],
+  ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
+  ['s_inf','hf'],['s_inf','stl'],
+  ['s_dl', 'hf'],
+  ['s_llm','hf'],
+  ['s_ops','ghub'],
+  ['s_ml', 'stl'],
 
   // DEPLOY → SHIP
-  // ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
-  // ['stl', 'linktree'],['stl', 'linkedin'],
-  // ['rend','linktree'],
-  ['ghub','linktree'],['ghub','cv'],['ghub',  'linkedin'],
+  ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
+  ['stl', 'linktree'],['stl', 'linkedin'],
+  ['rend','linktree'],
+  ['ghub','linktree'],['ghub','cv'],
 
   // SOURCES → SHIP
-  // ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
-  // ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
-  // ['databird','cv'],
+  ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
+  ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
+  ['databird','cv'],
 
   // PROJETS → SHIP
-  // ['wakee','linkedin'],['wakee_r','linkedin'],
-  // ['fddet','linkedin'],['jobtrk', 'linkedin'],
-  // ['ratp_pl','cv'],
-  // ['wakee','linktree'],['jobtrk', 'linktree'],
-  ['cv','linktree'],['linkedin','linktree'],['video','linktree'],
+  ['wakee',  'linkedin'],['wakee_r','linkedin'],
+  ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
+  ['ratp_pl','cv'],
+  ['wakee',  'linktree'],['jobtrk', 'linktree'],
+  ['cv',     'linktree'],['linkedin','linktree'],['video','linktree'],
 ];
 
 /* ============================================================
@@ -363,23 +362,35 @@ function getConnected(id) {
   return s;
 }
 
-/* Propagation transitive : remonte vers SOURCES et descend vers SHIP */
+/* Propagation contrôlée :
+   - goForward  : descend librement vers SHIP
+   - goBackward : remonte vers SOURCES sans repartir latéralement depuis eux
+   Un edge n'est actif que s'il est directement sur le chemin
+   du nœud sélectionné — pas sur une branche parallèle d'un ancêtre. */
 function getFullPath(id) {
-  const path = new Set([id]);
+  const fwd = new Set([id]); // aval  : deploy, ship
+  const bwd = new Set([id]); // amont : skills, sources
 
-  function forward(nid) {           // SOURCES → SHIP
+  function goForward(nid) {
     EDGES.forEach(([a,b]) => {
-      if (a === nid && !path.has(b)) { path.add(b); forward(b); }
+      if (a === nid && !fwd.has(b)) { fwd.add(b); goForward(b); }
     });
   }
-  function backward(nid) {          // SHIP → SOURCES
+  function goBackward(nid) {
     EDGES.forEach(([a,b]) => {
-      if (b === nid && !path.has(a)) { path.add(a); backward(a); }
+      if (b === nid && !bwd.has(a)) { bwd.add(a); goBackward(a); }
     });
   }
 
-  forward(id);
-  backward(id);
+  goForward(id);
+  goBackward(id);
+
+  // Un edge est "dans le chemin" seulement si :
+  //   son SOURCE est dans bwd  ET  sa CIBLE est dans fwd
+  // → élimine les liaisons latérales des ancêtres vers d'autres branches
+  const path = new Set([...fwd, ...bwd]);
+  path._fwd = fwd;
+  path._bwd = bwd;
   return path;
 }
 
@@ -399,12 +410,12 @@ function onNodeClick(id) {
     else                    el.classList.add('dimmed');
   });
 
-  // Connexions : active si les DEUX extrémités sont dans le chemin
-  // Couleur = couleur de la couche SOURCE de l'edge (gradient naturel)
+  // Connexions : active uniquement si src ∈ bwd ET tgt ∈ fwd
+  // → élimine les branches parallèles des ancêtres
   document.querySelectorAll('.conn-path').forEach(p => {
-    const inPath = path.has(p.dataset.src) && path.has(p.dataset.tgt);
+    const onPath = path._bwd.has(p.dataset.src) && path._fwd.has(p.dataset.tgt);
     p.classList.remove('conn-active','conn-dimmed');
-    if (inPath) {
+    if (onPath) {
       p.classList.add('conn-active');
       const srcNode = NODES.find(n => n.id === p.dataset.src);
       const edgeColor = LAYERS[srcNode ? srcNode.layer : 0].color;
@@ -417,9 +428,9 @@ function onNodeClick(id) {
     }
   });
 
-  // Particules : actives sur tous les edges du chemin
+  // Particules : actives sur les edges du chemin filtré
   const activeEdgeSet = new Set(
-    EDGES.filter(([a,b]) => path.has(a) && path.has(b)).map(([a,b]) => `${a}|${b}`)
+    EDGES.filter(([a,b]) => path._bwd.has(a) && path._fwd.has(b)).map(([a,b]) => `${a}|${b}`)
   );
   particles.forEach(p => { p.active = activeEdgeSet.has(`${p.sid}|${p.tid}`); });
 
