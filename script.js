@@ -7,7 +7,7 @@ const LAYERS = [
   { id:'sources', label:'SOURCES', color:'#4ECDC4' },
   { id:'skills',  label:'SKILLS',  color:'#00D4FF' },
   { id:'projets', label:'PROJETS', color:'#A855F7' },
-  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' },  // ← nouvelle couche
+  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' },
   { id:'ship',    label:'SHIP',    color:'#10B981' },
 ];
 
@@ -75,7 +75,7 @@ const NODES = [
     result:"Deux livrables distincts pour deux décideurs. Précision à la seconde.",
     tags:['Python','Pandas','Automatisation','IDFM'], code:'#' },
 
-  /* ── DEPLOY (4) ── nouvelle couche ───────────── */
+  /* ── DEPLOY (4) ─────────────────────────────────── */
   { id:'hf',    layer:3, abbr:'HF', label:'HuggingFace', sublabel:'Spaces',      type:'deploy',
     description:"Déploiement de Wakee, Wakee Reloaded et Job Tracker sur HuggingFace Spaces. Intégration GitHub Actions pour le redéploiement conditionnel.",
     tags:['Wakee','Wakee Reloaded','Job Tracker'], url:'#' },
@@ -148,13 +148,14 @@ const EDGES = [
   // SOURCES → SHIP
   ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
   ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
-  ['databird','cv'],
+  // ['databird','cv'],
 
   // PROJETS → SHIP
   ['wakee',  'linkedin'],['wakee_r','linkedin'],
-  ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
+  // ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
   ['ratp_pl','cv'],
-  ['wakee',  'linktree'],['jobtrk', 'linktree'],
+  ['wakee',  'linktree'],
+  // ['jobtrk', 'linktree'],
   ['cv',     'linktree'],['linkedin','linktree'],['video','linktree'],
 ];
 
