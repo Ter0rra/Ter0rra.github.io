@@ -7,7 +7,7 @@ const LAYERS = [
   { id:'sources', label:'SOURCES', color:'#4ECDC4' },
   { id:'skills',  label:'SKILLS',  color:'#00D4FF' },
   { id:'projets', label:'PROJETS', color:'#A855F7' },
-  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' },
+  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' },  // ← nouvelle couche
   { id:'ship',    label:'SHIP',    color:'#10B981' },
 ];
 
@@ -75,19 +75,20 @@ const NODES = [
     result:"Deux livrables distincts pour deux décideurs. Précision à la seconde.",
     tags:['Python','Pandas','Automatisation','IDFM'], code:'#' },
 
-  /* ── DEPLOY (4) ─────────────────────────────────── */
+  /* ── DEPLOY (4) ── nouvelle couche ───────────── */
   { id:'hf',    layer:3, abbr:'HF', label:'HuggingFace', sublabel:'Spaces',      type:'deploy',
     description:"Déploiement de Wakee, Wakee Reloaded et Job Tracker sur HuggingFace Spaces. Intégration GitHub Actions pour le redéploiement conditionnel.",
     tags:['Wakee','Wakee Reloaded','Job Tracker'], url:'#' },
   { id:'stl',   layer:3, abbr:'ST', label:'Streamlit',   sublabel:'Cloud',       type:'deploy',
     description:"Déploiement de FD Detector sur Streamlit Community Cloud. Lié au repo GitHub, mise à jour automatique.",
     tags:['FD Detector'], url:'#' },
-  { id:'rend',  layer:3, abbr:'RD', label:'Render',      sublabel:'Web Hosting', type:'deploy',
-    description:"Hébergement de RPSLS sur Render. Déploiement continu depuis GitHub.",
-    tags:['RPSLS'], url:'#' },
   { id:'ghub',  layer:3, abbr:'GH', label:'GitHub',      sublabel:'Code · Pages',type:'deploy',
     description:"Code source de tous les projets. Ce portfolio sur GitHub Pages. Keep-alive workflow GitHub Actions.",
     tags:['Tous les projets'], url:'https://github.com/Ter0rra' },
+  { id:'rend',  layer:3, abbr:'RD', label:'Render',      sublabel:'Web Hosting', type:'deploy',
+    description:"Hébergement de RPSLS sur Render. Déploiement continu depuis GitHub.",
+    tags:['RPSLS'], url:'#' },
+
 
   /* ── SHIP (5) ─────────────────────────────────── */
   { id:'cv',       layer:4, abbr:'CV', label:'Mon CV',      sublabel:'Télécharger',  type:'ship',
@@ -125,11 +126,12 @@ const EDGES = [
   ['s_inf','wakee'], ['s_inf','wakee_r'], ['s_inf','jobtrk'], ['s_inf','fddet'],
 
   // PROJETS → DEPLOY
-  ['wakee',   'hf'],   ['wakee_r','hf'],  ['jobtrk','hf'],
+  ['wakee',   'stl'],   ['wakee_r','hf'],  ['jobtrk','hf'],
   ['fddet',   'stl'],
   ['rpsls',   'rend'],
   ['wakee',   'ghub'], ['wakee_r','ghub'],['jobtrk','ghub'],
-  ['fddet',   'ghub'], ['rpsls',  'ghub'],['ratp_pl','ghub'],
+  ['fddet',   'ghub'], ['rpsls',  'ghub'],
+  // ['ratp_pl','ghub'],
 
   // SKILLS → DEPLOY (cross-layer)
   ['s_py', 'hf'],['s_py', 'stl'],['s_py', 'ghub'],
@@ -140,22 +142,21 @@ const EDGES = [
   ['s_ml', 'stl'],
 
   // DEPLOY → SHIP
-  ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
-  ['stl', 'linktree'],['stl', 'linkedin'],
-  ['rend','linktree'],
-  ['ghub','linktree'],['ghub','cv'],
+  // ['hf',  'linktree'],['hf',  'linkedin'],['hf',  'cv'],
+  // ['stl', 'linktree'],['stl', 'linkedin'],
+  // ['rend','linktree'],
+  ['ghub','linktree'],['hf',  'linkedin'],['ghub','cv'],
 
   // SOURCES → SHIP
   ['ratp',    'cv'],['ratp',    'linkedin'],['ratp',   'video'],
   ['jedha',   'cv'],['jedha',   'linkedin'],['jedha',  'video'],
-  // ['databird','cv'],
+  ['databird','cv'],
 
   // PROJETS → SHIP
   ['wakee',  'linkedin'],['wakee_r','linkedin'],
-  // ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
+  ['fddet',  'linkedin'],['jobtrk', 'linkedin'],
   ['ratp_pl','cv'],
-  ['wakee',  'linktree'],
-  // ['jobtrk', 'linktree'],
+  ['wakee',  'linktree'],['jobtrk', 'linktree'],
   ['cv',     'linktree'],['linkedin','linktree'],['video','linktree'],
 ];
 
@@ -411,14 +412,21 @@ function onNodeClick(id) {
     else                    el.classList.add('dimmed');
   });
 
-  // Connexions : active uniquement si src ∈ bwd ET tgt ∈ fwd
-  // → élimine les branches parallèles des ancêtres
+  // Logique correcte :
+  //   • edge dans la chaîne ARRIÈRE : src ∈ bwd ET tgt ∈ bwd
+  //   • edge dans la chaîne AVANT   : src ∈ fwd ET tgt ∈ fwd
+  // → montre la propagation complète sans les branches parasites
+  //   (ex: jedha→cv ne s'allume PAS quand Pipeline RATP est sélectionné,
+  //    car cv n'est pas dans bwd ; mais s_py→wakee s'allume car les deux
+  //    sont dans fwd de DataBird)
   document.querySelectorAll('.conn-path').forEach(p => {
-    const onPath = path._bwd.has(p.dataset.src) && path._fwd.has(p.dataset.tgt);
+    const s = p.dataset.src, t = p.dataset.tgt;
+    const onPath = (path._bwd.has(s) && path._bwd.has(t)) ||
+                   (path._fwd.has(s) && path._fwd.has(t));
     p.classList.remove('conn-active','conn-dimmed');
     if (onPath) {
       p.classList.add('conn-active');
-      const srcNode = NODES.find(n => n.id === p.dataset.src);
+      const srcNode = NODES.find(n => n.id === s);
       const edgeColor = LAYERS[srcNode ? srcNode.layer : 0].color;
       p.style.stroke = edgeColor;
       p.style.filter = `drop-shadow(0 0 3px ${edgeColor}70)`;
@@ -429,9 +437,12 @@ function onNodeClick(id) {
     }
   });
 
-  // Particules : actives sur les edges du chemin filtré
+  // Particules : mêmes conditions
   const activeEdgeSet = new Set(
-    EDGES.filter(([a,b]) => path._bwd.has(a) && path._fwd.has(b)).map(([a,b]) => `${a}|${b}`)
+    EDGES.filter(([a,b]) =>
+      (path._bwd.has(a) && path._bwd.has(b)) ||
+      (path._fwd.has(a) && path._fwd.has(b))
+    ).map(([a,b]) => `${a}|${b}`)
   );
   particles.forEach(p => { p.active = activeEdgeSet.has(`${p.sid}|${p.tid}`); });
 
