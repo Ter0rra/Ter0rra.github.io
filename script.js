@@ -7,7 +7,7 @@ const LAYERS = [
   { id:'sources', label:'SOURCES', color:'#4ECDC4' },
   { id:'skills',  label:'SKILLS',  color:'#00D4FF' },
   { id:'projets', label:'PROJETS', color:'#A855F7' },
-  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' },  // ← nouvelle couche
+  { id:'deploy',  label:'DEPLOY',  color:'#F59E0B' }, 
   { id:'ship',    label:'SHIP',    color:'#10B981' },
 ];
 
@@ -50,56 +50,56 @@ const NODES = [
     subskills:['Docker','AWS S3','EC2','Boto3','Docker Compose'], tags:['Avancé'] },
 
   /* ── PROJETS (6) ─────────────────────────────── */
-  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee',          sublabel:'● LIVE', type:'projet', live:true,
+  { id:'wakee',   layer:2, abbr:'WK', label:'Wakee',          sublabel:'in local devide', type:'projet', live:false,
     description:"CNN EfficientNet B4 + LLM Mistral pour la détection d'émotions faciales. Aide à maintenir la concentration. Projet d'équipe (4 personnes).",
     result:"Déployé HuggingFace Spaces. Accès restreint — conformité AI Act.",
-    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], demo:'#', code:'#' },
+    tags:['PyTorch','EfficientNet B4','Mistral','MLflow','Docker'], demo:'#', code:'https://github.com/Ter0rra/Wakee' },
   { id:'wakee_r', layer:2, abbr:'WR', label:'Wakee Reloaded', sublabel:'● LIVE', type:'projet', live:true,
     description:"Pipeline de réentraînement continu : Airflow scheduling, MLflow tracking, NeonDB, Streamlit labellisation, redéploiement conditionnel GitHub Actions.",
     result:"Réentraînement automatique déclenché par seuil de performance. Zéro intervention manuelle.",
-    tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'#', code:'#' },
-  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'● LIVE', type:'projet', live:true,
+    tags:['Airflow','MLflow','NeonDB','Streamlit','GitHub Actions','Docker'], demo:'https://terorra-wakee-sourcing.hf.space', code:'https://github.com/Ter0rra/wakee-reloaded' },
+  { id:'jobtrk',  layer:2, abbr:'JT', label:'Job Tracker',    sublabel:'Interne', type:'projet', live:false,
     description:"Dashboard de suivi de candidatures en temps réel. Statuts, relances, classification par catégorie, détection des candidatures périmées.",
     result:"Déployé HuggingFace Spaces via Docker.",
     tags:['Streamlit','Docker','Python'], demo:'#', code:'#' },
   { id:'fddet',   layer:2, abbr:'FD', label:'FD Detector',    sublabel:'● LIVE', type:'projet', live:true,
     description:"Détection de transactions frauduleuses. XGBoost, SMOTE, API FastAPI, interface Streamlit.",
     result:"AUC-ROC 0.94. Pipeline complet preprocessing → modèle → API → UI.",
-    tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'#', code:'#' },
-  { id:'rpsls',   layer:2, abbr:'RL', label:'RPSLS',          sublabel:'● LIVE', type:'projet', live:true,
+    tags:['XGBoost','FastAPI','Streamlit','Scikit-learn','SMOTE'], demo:'https://terorra-fd-dashboard.hf.space', code:'https://github.com/Ter0rra/03_Jedha_aia_bloc_3_fraud_detector' },
+  { id:'rpsls',   layer:2, abbr:'RL', label:'RPSLS', sublabel:'● LIVE', type:'projet', live:true,
     description:"Rock Paper Scissors Lizard Spock en Python, déployé sur Render.",
     result:"Déployé et accessible en ligne.",
-    tags:['Python','Render'], demo:'#', code:'#' },
+    tags:['Python','Render'], demo:'https://rpsls-deepqlearn.onrender.com/', code:'https://github.com/Ter0rra/RPSLS_DeepQlearn' },
   { id:'ratp_pl', layer:2, abbr:'RP', label:'Pipeline RATP',  sublabel:'Interne', type:'projet', live:false,
     description:"Automatisation Python de l'analyse de régularité train à la seconde. Construit en autodidacte pour le reporting IDFM.",
     result:"Deux livrables distincts pour deux décideurs. Précision à la seconde.",
     tags:['Python','Pandas','Automatisation','IDFM'], code:'#' },
 
-  /* ── DEPLOY (4) ── nouvelle couche ───────────── */
+  /* ── DEPLOY (4) ───────────────────────────────── */
   { id:'hf',    layer:3, abbr:'HF', label:'HuggingFace', sublabel:'Spaces',      type:'deploy',
     description:"Déploiement de Wakee, Wakee Reloaded et Job Tracker sur HuggingFace Spaces. Intégration GitHub Actions pour le redéploiement conditionnel.",
-    tags:['Wakee','Wakee Reloaded','Job Tracker'], url:'#' },
+    tags:['Wakee','Wakee Reloaded','Job Tracker'], url:'https://huggingface.co/Terorra' },
   { id:'stl',   layer:3, abbr:'ST', label:'Streamlit',   sublabel:'Cloud',       type:'deploy',
     description:"Déploiement de FD Detector sur Streamlit Community Cloud. Lié au repo GitHub, mise à jour automatique.",
-    tags:['FD Detector'], url:'#' },
+    tags:['FD Detector'], url:'https://terorra-fd-dashboard.hf.space' },
   { id:'ghub',  layer:3, abbr:'GH', label:'GitHub',      sublabel:'Code · Pages',type:'deploy',
     description:"Code source de tous les projets. Ce portfolio sur GitHub Pages. Keep-alive workflow GitHub Actions.",
     tags:['Tous les projets'], url:'https://github.com/Ter0rra' },
   { id:'rend',  layer:3, abbr:'RD', label:'Render',      sublabel:'Web Hosting', type:'deploy',
     description:"Hébergement de RPSLS sur Render. Déploiement continu depuis GitHub.",
-    tags:['RPSLS'], url:'#' },
+    tags:['RPSLS'], url:'https://rpsls-deepqlearn.onrender.com/' },
 
 
   /* ── SHIP (5) ─────────────────────────────────── */
   { id:'cv',       layer:4, abbr:'CV', label:'Mon CV',      sublabel:'Télécharger',  type:'ship',
     description:"CV complet — Data Scientist, MLOps Engineer, Data Analyst. Disponible pour CDI en Île-de-France / Hauts-de-France.",
-    tags:['CDI','IDF','Hauts-de-France'], url:'#' },
+    tags:['CDI','IDF','Hauts-de-France'], url:'https://linktr.ee/albert.romano' },
   { id:'linkedin', layer:4, abbr:'LI', label:'LinkedIn',    sublabel:'Profil',       type:'ship',
     description:"Profil LinkedIn avec recommandations, détail des expériences et des projets.",
     tags:['Réseau','Recommandations'], url:'https://linkedin.com/in/albert-romano-ter0rra' },
   { id:'linktree', layer:4, abbr:'LT', label:'Linktree',    sublabel:'Hub de liens', type:'ship',
     description:"Aggregateur de liens : GitHub, HuggingFace Spaces, LinkedIn, CV, vidéo pitch.",
-    tags:['GitHub','LinkedIn','CV','Vidéo'], url:'#' },
+    tags:['GitHub','LinkedIn','CV','Vidéo'], url:'https://linktr.ee/albert.romano' },
   { id:'video',    layer:4, abbr:'VP', label:'Vidéo Pitch', sublabel:'En production',type:'ship',
     description:"Vidéo de personal branding en cours de production (DaVinci Resolve 21). Raconte le fil RATP → IA → MLOps en 2 minutes.",
     tags:['Personal Branding','DaVinci Resolve','En cours'], url:'#' },
@@ -168,7 +168,7 @@ let activeId  = null;
 let particles = [];
 let rafId     = null;
 let scale = 1, panX = 0, panY = 0;
-const PANEL_H_PX = 210; // correspond à --panel-h
+const PANEL_H_PX = 210; 
 
 /* ============================================================
    POSITIONS
@@ -191,7 +191,6 @@ function computePositions() {
     layerNodes.forEach((node, ni) => {
       let y;
       if (li === 0) {
-        // SOURCES : compressées sur 30% de la hauteur, centrées
         const rng = availH * 0.30;
         const start = (H - rng) / 2;
         y = count === 1 ? H / 2 : start + (ni / (count - 1)) * rng;
@@ -259,7 +258,7 @@ function renderNodes() {
 }
 
 /* ============================================================
-   SVG — CONNEXIONS (dimensions explicites = fix du bug principal)
+   SVG — CONNEXIONS
    ============================================================ */
 function renderConnections() {
   const svg = document.getElementById('svgLayer');
@@ -267,7 +266,6 @@ function renderConnections() {
   const W = wrapper.offsetWidth;
   const H = wrapper.offsetHeight;
 
-  // ← FIX CRITIQUE : dimensions explicites sur le SVG
   svg.setAttribute('width', W);
   svg.setAttribute('height', H);
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
@@ -295,7 +293,6 @@ function bezPt(t, sx,sy,ex,ey) {
   const dx=(ex-sx)*.42, cx1=sx+dx, cx2=ex-dx, m=1-t;
   return { x:m*m*m*sx+3*m*m*t*cx1+3*m*t*t*cx2+t*t*t*ex,
            y:m*m*m*sy+3*m*m*t*cy1+3*m*t*t*cy2+t*t*t*ey };
-  // bug guard: redefine properly
 }
 function bezierPoint(t, sx,sy,ex,ey) {
   const dx=(ex-sx)*.42;
@@ -363,12 +360,6 @@ function getConnected(id) {
   EDGES.forEach(([a,b]) => { if(a===id)s.add(b); if(b===id)s.add(a); });
   return s;
 }
-
-/* Propagation contrôlée :
-   - goForward  : descend librement vers SHIP
-   - goBackward : remonte vers SOURCES sans repartir latéralement depuis eux
-   Un edge n'est actif que s'il est directement sur le chemin
-   du nœud sélectionné — pas sur une branche parallèle d'un ancêtre. */
 function getFullPath(id) {
   const fwd = new Set([id]); // aval  : deploy, ship
   const bwd = new Set([id]); // amont : skills, sources
@@ -387,9 +378,6 @@ function getFullPath(id) {
   goForward(id);
   goBackward(id);
 
-  // Un edge est "dans le chemin" seulement si :
-  //   son SOURCE est dans bwd  ET  sa CIBLE est dans fwd
-  // → élimine les liaisons latérales des ancêtres vers d'autres branches
   const path = new Set([...fwd, ...bwd]);
   path._fwd = fwd;
   path._bwd = bwd;
@@ -399,6 +387,17 @@ function getFullPath(id) {
 function onNodeClick(id) {
   if (activeId === id) { resetAll(); return; }
   activeId = id;
+
+// Tracking Google Analytics — clic sur un nœud
+  const clickedNode = NODES.find(n => n.id === id);
+  if (typeof gtag !== 'undefined' && clickedNode) {
+    gtag('event', 'node_click', {
+      node_id:    id,
+      node_label: clickedNode.label,
+      node_type:  clickedNode.type,
+      node_layer: LAYERS[clickedNode.layer]?.label,
+    });
+  }
 
   // Chemin complet : toutes les couches traversées
   const path = getFullPath(id);
@@ -412,13 +411,6 @@ function onNodeClick(id) {
     else                    el.classList.add('dimmed');
   });
 
-  // Logique correcte :
-  //   • edge dans la chaîne ARRIÈRE : src ∈ bwd ET tgt ∈ bwd
-  //   • edge dans la chaîne AVANT   : src ∈ fwd ET tgt ∈ fwd
-  // → montre la propagation complète sans les branches parasites
-  //   (ex: jedha→cv ne s'allume PAS quand Pipeline RATP est sélectionné,
-  //    car cv n'est pas dans bwd ; mais s_py→wakee s'allume car les deux
-  //    sont dans fwd de DataBird)
   document.querySelectorAll('.conn-path').forEach(p => {
     const s = p.dataset.src, t = p.dataset.tgt;
     const onPath = (path._bwd.has(s) && path._bwd.has(t)) ||
